@@ -1,22 +1,22 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
-import 'package:language/presentation/views/detail_view/grade_view.dart';
-import 'package:language/presentation/views/random/random_test.dart';
+import 'package:language/data/grade_model.dart';
+import 'package:language/presentation/views/phrases/phrase_test.dart';
+import 'package:language/presentation/views/words/word_test.dart';
 
-class TestDetailWidget extends StatelessWidget {
+class GradeDetailWidget extends StatelessWidget {
   final String test;
-  final String appBarText;
   final int count;
-  const TestDetailWidget(
+  final GradeModel grade;
+  const GradeDetailWidget(
       {super.key,
       required this.test,
-      required this.appBarText,
-      required this.count});
+      required this.count,
+      required this.grade});
 
   @override
   Widget build(BuildContext context) {
-    print("ccccccccccccc $count");
     return OpenContainer(
       closedShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -31,11 +31,20 @@ class TestDetailWidget extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  test,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w500, fontSize: 22),
+                Expanded(
+                  child: Text(
+                    grade.name!,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 22),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
+                Icon(
+                    grade.success!
+                        ? Icons.check_circle_rounded
+                        : Icons.circle_outlined,
+                    color: grade.success! ? green : red,
+                    size: 32),
                 const Icon(
                   Icons.arrow_forward_ios_rounded,
                   color: black,
@@ -47,14 +56,10 @@ class TestDetailWidget extends StatelessWidget {
         );
       },
       openBuilder: (context, action) {
-        // if (count.isEmpty) {
-        //   count = "10";
-        // }
-        if (appBarText.compareTo("Random dictionary") == 0) {
-          return RandomTest(count: count, test: test);
-        } else if (appBarText.compareTo("Words") == 0 ||
-            appBarText.compareTo("Phrases") == 0) {
-          return GradeView(test: test, count: count, gradeName: appBarText);
+        if (grade.category!.compareTo("Words") == 0) {
+          return WordTest(test: test, count: count, gradeId: grade.id!);
+        } else if (grade.category!.compareTo("Phrases") == 0) {
+          return PhraseTest(test: test, count: count, gradeId: grade.id!);
         }
         return const Scaffold();
       },

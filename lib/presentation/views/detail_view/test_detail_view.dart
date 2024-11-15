@@ -12,11 +12,10 @@ class TestDetailView extends StatefulWidget {
 }
 
 class _TestDetailViewState extends State<TestDetailView> {
-  TextEditingController controllerItemCount = TextEditingController();
+  int count = 0;
 
   @override
   Widget build(BuildContext context) {
-    controllerItemCount.text = "10";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent.shade400,
@@ -42,19 +41,28 @@ class _TestDetailViewState extends State<TestDetailView> {
                 PopupMenuItem(
                   child: const Text("10"),
                   onTap: () {
-                    controllerItemCount.text = "10";
+                    count = 10;
+                    print("10 10 10 10 $count");
                   },
                 ),
                 PopupMenuItem(
                   child: const Text("20"),
                   onTap: () {
-                    controllerItemCount.text = "20";
+                    count = 20;
+                    print("20 20 20 20 $count");
                   },
                 ),
                 PopupMenuItem(
                   child: const Text("30"),
                   onTap: () {
-                    controllerItemCount.text = "30";
+                    count = 30;
+                    print("30 30 30 30 $count");
+                  },
+                ),
+                PopupMenuItem(
+                  child: const Text("All"),
+                  onTap: () {
+                    count = -1;
                   },
                 ),
               ];
@@ -69,22 +77,22 @@ class _TestDetailViewState extends State<TestDetailView> {
             TestDetailWidget(
                 test: "Test English",
                 appBarText: widget.appBarText,
-                count: controllerItemCount.text),
+                count: count),
             const SizedBox(height: 12),
             TestDetailWidget(
                 test: "Test Uzbek",
                 appBarText: widget.appBarText,
-                count: controllerItemCount.text),
+                count: count),
             const SizedBox(height: 12),
             TestDetailWidget(
                 test: "Test mixed",
                 appBarText: widget.appBarText,
-                count: controllerItemCount.text),
+                count: count),
             const SizedBox(height: 12),
             TestDetailWidget(
                 test: "Written test",
                 appBarText: widget.appBarText,
-                count: controllerItemCount.text),
+                count: count),
             const SizedBox(height: 12),
             GestureDetector(
               onTap: () => Caller.launchUrlWeb(

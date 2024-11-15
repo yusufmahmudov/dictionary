@@ -10,7 +10,7 @@ import 'package:language/presentation/views/test_view/written_test_view.dart';
 // ignore: must_be_immutable
 class RandomTest extends StatelessWidget {
   final String test;
-  final String count;
+  final int count;
 
   RandomTest({super.key, required this.test, required this.count});
 
@@ -19,7 +19,10 @@ class RandomTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int c = int.parse(count);
+    int c = count;
+    print("cccccccccccccccccccccccccccccccccc $c");
+    c == 0 ? c = 10 : c = c;
+    print("ccccccccccccclcc $c");
     return FutureBuilder(
       future: WordService().fetchWordByActive(false),
       builder: (context, snapshot) {

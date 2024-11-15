@@ -10,7 +10,7 @@ import 'package:language/presentation/views/test_view/written_test_view.dart';
 // ignore: must_be_immutable
 class PhraseTest extends StatelessWidget {
   final String test;
-  final String count;
+  final int count;
   final int gradeId;
 
   PhraseTest(
@@ -24,7 +24,7 @@ class PhraseTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int c = int.parse(count);
+    int c = count;
     return FutureBuilder(
       future: PhraseService().fetchPhraseByGrade(gradeId),
       builder: (context, snapshot) {

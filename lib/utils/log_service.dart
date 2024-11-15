@@ -7,6 +7,8 @@ class Log {
     printer: PrettyPrinter(),
   );
 
+  Log(String text);
+
   static void d(dynamic message) {
     _logger.d(message);
   }

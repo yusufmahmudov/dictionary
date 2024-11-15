@@ -46,7 +46,7 @@ class WordService {
   Future<List<WordModel>> fetchWordByActive(bool active) async {
     try {
       final List<int> gradeIds =
-          await GradeService().fetchGradeIdByQuery('word', active);
+          await GradeService().fetchGradeIdByQuery('Words', active);
       String ids = gradeIds.join(",");
 
       final response = await supabase

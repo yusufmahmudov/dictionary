@@ -48,7 +48,7 @@ class PhraseService {
   Future<List<PhraseModel>> fetchPhraseByActive(bool active) async {
     try {
       final List<int> gradeIds =
-          await GradeService().fetchGradeIdByQuery('phrase', active);
+          await GradeService().fetchGradeIdByQuery('Phrases', active);
       String ids = gradeIds.join(",");
 
       final response = await supabase
