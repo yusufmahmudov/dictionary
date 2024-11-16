@@ -2,7 +2,9 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/grade_model.dart';
+import 'package:language/presentation/views/all_item/all_item_view.dart';
 import 'package:language/presentation/views/phrases/phrase_test.dart';
+import 'package:language/presentation/views/principle/principle_item_view.dart';
 import 'package:language/presentation/views/words/word_test.dart';
 
 class GradeDetailWidget extends StatelessWidget {
@@ -56,7 +58,11 @@ class GradeDetailWidget extends StatelessWidget {
         );
       },
       openBuilder: (context, action) {
-        if (grade.category!.compareTo("Words") == 0) {
+        if (count == -2) {
+          return AllItemView(grade: grade);
+        } else if (count == -3) {
+          return PrincipleItemView(grade: grade);
+        } else if (grade.category!.compareTo("Words") == 0) {
           return WordTest(test: test, count: count, gradeId: grade.id!);
         } else if (grade.category!.compareTo("Phrases") == 0) {
           return PhraseTest(test: test, count: count, gradeId: grade.id!);

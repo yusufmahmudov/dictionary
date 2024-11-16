@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:language/assets/color/colors.dart';
 import 'package:language/data/question.dart';
 import 'package:language/data/word_model.dart';
 import 'package:language/infrastructure/apis/word_service.dart';
@@ -20,19 +22,27 @@ class RandomTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int c = count;
-    print("cccccccccccccccccccccccccccccccccc $c");
-    c == 0 ? c = 10 : c = c;
-    print("ccccccccccccclcc $c");
+    if (c == 0) {
+      c = 10;
+    }
     return FutureBuilder(
       future: WordService().fetchWordByActive(false),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const CupertinoActivityIndicator(
+            radius: 15.0,
+            color: blue,
+          );
         } else if (snapshot.hasError) {
           return Text('Xatolik: ${snapshot.error}');
         }
         snapshot.data?.shuffle();
-        words = snapshot.data!.take(c).toList();
+        if (c == -1 || c > snapshot.data!.length) {
+          words = snapshot.data!.toList();
+          c = words.length;
+        } else {
+          words = snapshot.data!.take(c).toList();
+        }
         for (var w in words) {
           question.add(
             Question(

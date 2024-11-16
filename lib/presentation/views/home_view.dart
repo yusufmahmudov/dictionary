@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
+import 'package:language/presentation/views/error_view.dart';
 import 'package:language/presentation/widgets/builder_container.dart';
 
 class HomeView extends StatefulWidget {
@@ -25,9 +26,59 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         centerTitle: true,
-      ),
-      endDrawer: const Drawer(
-        width: 250,
+        actions: [
+          PopupMenuButton<int>(
+            icon: const Icon(Icons.more_vert),
+            onSelected: (value) {
+              // Har bir element bosilganda nima bo'lishini sozlang
+              switch (value) {
+                case 0:
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ErrorView()));
+                  break;
+                case 1:
+                  print('Yangi inkognito varaq tanlandi');
+                  break;
+                case 2:
+                  print('Barcha varaqni yopish tanlandi');
+                  break;
+                case 3:
+                  print('Sozlamalar tanlandi');
+                  break;
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 0,
+                child: ListTile(
+                  leading: Icon(Icons.add),
+                  title: Text('Yangi varaq'),
+                ),
+              ),
+              const PopupMenuItem(
+                value: 1,
+                child: ListTile(
+                  leading: Icon(Icons.visibility_off),
+                  title: Text('Yangi Inkognito varaq'),
+                ),
+              ),
+              const PopupMenuItem(
+                value: 2,
+                child: ListTile(
+                  leading: Icon(Icons.close),
+                  title: Text('Barcha varaqni yopish'),
+                ),
+              ),
+              const PopupMenuItem(
+                value: 3,
+                child: ListTile(
+                  leading: Icon(Icons.settings),
+                  title: Text('Sozlamalar'),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       body: const Padding(
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:language/assets/color/colors.dart';
 import 'package:language/data/phrase_model.dart';
 import 'package:language/data/question.dart';
 import 'package:language/infrastructure/apis/phrase_service.dart';
@@ -25,15 +26,26 @@ class PhraseTest extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int c = count;
+    if (c == 0) {
+      c = 10;
+    }
     return FutureBuilder(
       future: PhraseService().fetchPhraseByGrade(gradeId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+          return const CupertinoActivityIndicator(
+            radius: 15.0,
+            color: blue,
+          );
         } else if (snapshot.hasError) {
           return Text('Xatolik: ${snapshot.error}');
         }
-        phrase = snapshot.data!.take(c).toList();
+        if (c == -1 || c > snapshot.data!.length) {
+          phrase = snapshot.data!.toList();
+          c = phrase.length;
+        } else {
+          phrase = snapshot.data!.take(c).toList();
+        }
         for (var p in phrase) {
           question.add(
             Question(

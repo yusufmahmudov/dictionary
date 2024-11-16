@@ -1,5 +1,6 @@
 import 'package:language/data/g_model/grade_model_g.dart';
 import 'package:language/data/grade_model.dart';
+import 'package:language/data/word_model.dart';
 import 'package:language/utils/enum_filtr.dart';
 import 'package:language/utils/log_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -29,12 +30,43 @@ class GradeService {
     }
   }
 
+  Future<List<WordModel>> fetchGradeByIdAll(int id, String category) async {
+    try {
+      List<dynamic> response = [];
+      if (category.compareTo("Words") == 0) {
+        response =
+            await supabase.from(Tables.word.text).select().eq('grade_id', id);
+      } else {
+        response =
+            await supabase.from(Tables.phrase.text).select().eq("grade_id", id);
+      }
+      return response.map((e) => WordModel.fromJson(e)).toList();
+    } catch (e) {
+      throw Exception("Xatolik yuz berdi: $e");
+    }
+  }
+
   Future<List<GradeModel>> fetchGradeByCategory(String category) async {
     try {
-      final List<dynamic> response = await supabase
-          .from(Tables.grade.text)
-          .select()
-          .eq('category', category);
+      List<dynamic> response = [];
+      if (category.compareTo("All dictionaries") == 0) {
+        final List<dynamic> response = await supabase
+            .from(Tables.grade.text)
+            .select()
+            .or('category.eq.Words,category.eq.Phrases');
+        return response.map((e) => GradeModel.fromJson(e)).toList();
+      } else if (category.compareTo("Principle") == 0) {
+        final List<dynamic> response = await supabase
+            .from(Tables.grade.text)
+            .select()
+            .eq("category", category);
+        return response.map((e) => GradeModel.fromJson(e)).toList();
+      } else {
+        response = await supabase
+            .from(Tables.grade.text)
+            .select()
+            .eq('category', category);
+      }
       return response.map((e) => GradeModel.fromJson(e)).toList();
     } catch (e) {
       throw Exception("Xatolik yuz berdi: $e");

@@ -42,27 +42,28 @@ class _TestDetailViewState extends State<TestDetailView> {
                   child: const Text("10"),
                   onTap: () {
                     count = 10;
-                    print("10 10 10 10 $count");
+                    setState(() {});
                   },
                 ),
                 PopupMenuItem(
                   child: const Text("20"),
                   onTap: () {
                     count = 20;
-                    print("20 20 20 20 $count");
+                    setState(() {});
                   },
                 ),
                 PopupMenuItem(
                   child: const Text("30"),
                   onTap: () {
                     count = 30;
-                    print("30 30 30 30 $count");
+                    setState(() {});
                   },
                 ),
                 PopupMenuItem(
                   child: const Text("All"),
                   onTap: () {
                     count = -1;
+                    setState(() {});
                   },
                 ),
               ];

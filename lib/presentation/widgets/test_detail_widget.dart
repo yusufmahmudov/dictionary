@@ -16,7 +16,6 @@ class TestDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("ccccccccccccc $count");
     return OpenContainer(
       closedShape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),

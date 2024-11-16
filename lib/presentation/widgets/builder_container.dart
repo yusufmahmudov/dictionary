@@ -1,8 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
-import 'package:language/presentation/views/detail_view/principle_detail_view.dart';
-import 'package:language/presentation/views/detail_view/special_detail_view.dart';
+import 'package:language/presentation/views/detail_view/grade_view.dart';
 import 'package:language/presentation/views/detail_view/test_detail_view.dart';
 
 class BuilderContainer extends StatelessWidget {
@@ -43,9 +42,10 @@ class BuilderContainer extends StatelessWidget {
       },
       openBuilder: (context, action) {
         if (text.compareTo("All dictionaries") == 0) {
-          return SpecialDetailView(appBarText: text);
+          return const GradeView(
+              test: "", count: -2, gradeName: 'All dictionaries');
         } else if (text.compareTo("Principle") == 0) {
-          return PrincipleDetailView(appBarText: text);
+          return const GradeView(test: "", count: -3, gradeName: "Principle");
         }
         return TestDetailView(appBarText: text);
       },

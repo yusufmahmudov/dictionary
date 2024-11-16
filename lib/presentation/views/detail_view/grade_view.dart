@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/grade_model.dart';
@@ -20,6 +21,7 @@ class GradeView extends StatefulWidget {
 
 class _GradeViewState extends State<GradeView> {
   List<GradeModel> grade = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +53,10 @@ class _GradeViewState extends State<GradeView> {
           future: GradeService().fetchGradeByCategory(widget.gradeName),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const CupertinoActivityIndicator(
+                radius: 15.0,
+                color: blue,
+              );
             } else if (snapshot.hasError) {
               return Text('Xatolik: ${snapshot.error}');
             } else if (snapshot.hasData) {
