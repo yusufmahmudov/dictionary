@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
-import 'package:language/presentation/views/error_view.dart';
+import 'package:language/presentation/views/adder_view/grade_list_view.dart';
 import 'package:language/presentation/widgets/builder_container.dart';
 
 class HomeView extends StatefulWidget {
@@ -33,17 +33,40 @@ class _HomeViewState extends State<HomeView> {
               // Har bir element bosilganda nima bo'lishini sozlang
               switch (value) {
                 case 0:
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ErrorView()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const GradeListView(category: "Grade"),
+                    ),
+                  );
                   break;
                 case 1:
-                  print('Yangi inkognito varaq tanlandi');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const GradeListView(category: "Words"),
+                    ),
+                  );
                   break;
                 case 2:
-                  print('Barcha varaqni yopish tanlandi');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const GradeListView(category: "Phrases"),
+                    ),
+                  );
                   break;
                 case 3:
-                  print('Sozlamalar tanlandi');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const GradeListView(category: "Principle"),
+                    ),
+                  );
                   break;
               }
             },
@@ -51,29 +74,29 @@ class _HomeViewState extends State<HomeView> {
               const PopupMenuItem(
                 value: 0,
                 child: ListTile(
-                  leading: Icon(Icons.add),
-                  title: Text('Yangi varaq'),
+                  leading: Icon(Icons.list_alt_rounded),
+                  title: Text('Grade List'),
                 ),
               ),
               const PopupMenuItem(
                 value: 1,
                 child: ListTile(
-                  leading: Icon(Icons.visibility_off),
-                  title: Text('Yangi Inkognito varaq'),
+                  leading: Icon(Icons.post_add_rounded),
+                  title: Text('New words'),
                 ),
               ),
               const PopupMenuItem(
                 value: 2,
                 child: ListTile(
-                  leading: Icon(Icons.close),
-                  title: Text('Barcha varaqni yopish'),
+                  leading: Icon(Icons.post_add_rounded),
+                  title: Text('New phrases'),
                 ),
               ),
               const PopupMenuItem(
                 value: 3,
                 child: ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Sozlamalar'),
+                  leading: Icon(Icons.my_library_add_outlined),
+                  title: Text('New principle'),
                 ),
               ),
             ],

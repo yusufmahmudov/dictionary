@@ -55,12 +55,8 @@ class GradeService {
             .select()
             .or('category.eq.Words,category.eq.Phrases');
         return response.map((e) => GradeModel.fromJson(e)).toList();
-      } else if (category.compareTo("Principle") == 0) {
-        final List<dynamic> response = await supabase
-            .from(Tables.grade.text)
-            .select()
-            .eq("category", category);
-        return response.map((e) => GradeModel.fromJson(e)).toList();
+      } else if (category.compareTo("Grade") == 0) {
+        response = await supabase.from(Tables.grade.text).select();
       } else {
         response = await supabase
             .from(Tables.grade.text)
