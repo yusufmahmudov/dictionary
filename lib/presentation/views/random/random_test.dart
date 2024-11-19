@@ -4,6 +4,7 @@ import 'package:language/assets/color/colors.dart';
 import 'package:language/data/question.dart';
 import 'package:language/data/word_model.dart';
 import 'package:language/infrastructure/apis/word_service.dart';
+import 'package:language/presentation/views/new.dart';
 import 'package:language/presentation/views/test_view/en_test_view.dart';
 import 'package:language/presentation/views/test_view/mixed_test_view.dart';
 import 'package:language/presentation/views/test_view/uz_test_view.dart';
@@ -43,7 +44,7 @@ class RandomTest extends StatelessWidget {
         } else {
           words = snapshot.data!.take(c).toList();
         }
-        if (phrase.length < 3) {
+        if (words.length < 3) {
           return const NewView();
         }
         for (var w in words) {

@@ -125,27 +125,10 @@ class _EnTestViewState extends State<EnTestView> {
     });
   }
 
-  // Color getButtonColor(int index) {
-  //   setState(() {
-  //     if (hasAnswered) {
-  //       if (selectedAnswerIndex == index) {
-  //         _buttonColor = index == question[currentQuestionIndex].answerIndex
-  //             ? Colors.green
-  //             : Colors.red;
-  //       }
-  //       if (index == question[currentQuestionIndex].answerIndex) {
-  //         _buttonColor = Colors.green;
-  //       }
-  //     }
-
-  //     _buttonColor = Theme.of(context).colorScheme.onPrimary;
-  //   });
-  //   return _buttonColor;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: white,
       appBar: AppBar(
         backgroundColor: Colors.blueAccent.shade400,
         title: Text(
@@ -179,7 +162,8 @@ class _EnTestViewState extends State<EnTestView> {
 
                   // Question
                   Card(
-                    elevation: 2,
+                    elevation: 1,
+                    color: Colors.grey.shade200,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
@@ -192,9 +176,8 @@ class _EnTestViewState extends State<EnTestView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 20),
 
-                  // Options
                   Expanded(
                     child: ListView.builder(
                       itemCount: question[currentQuestionIndex].options.length,
@@ -202,30 +185,37 @@ class _EnTestViewState extends State<EnTestView> {
                         final option =
                             question[currentQuestionIndex].options[index];
 
+                        Color backgroundColor = Colors.grey.shade200;
+                        if (hasAnswered) {
+                          if (index ==
+                              question[currentQuestionIndex].answerIndex) {
+                            backgroundColor = Colors.green; // Correct answer
+                          } else if (index == selectedAnswerIndex) {
+                            backgroundColor =
+                                Colors.red; // Incorrect selected answer
+                          }
+                        }
+
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 12.0),
-                          child: ElevatedButton(
-                            onPressed:
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12.0, vertical: 6.0),
+                          child: InkWell(
+                            onTap:
                                 hasAnswered ? null : () => checkAnswer(index),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.onPrimary,
+                            child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
+                              decoration: BoxDecoration(
+                                color: backgroundColor,
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                            ),
-                            child: Text(
-                              option,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: hasAnswered &&
-                                        (selectedAnswerIndex == index ||
-                                            question[currentQuestionIndex]
-                                                    .answerIndex ==
-                                                index)
-                                    ? Colors.white
-                                    : null,
+                              alignment: Alignment.center,
+                              child: Text(
+                                option,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
