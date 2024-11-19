@@ -43,6 +43,9 @@ class RandomTest extends StatelessWidget {
         } else {
           words = snapshot.data!.take(c).toList();
         }
+        if (phrase.length < 3) {
+          return const NewView();
+        }
         for (var w in words) {
           question.add(
             Question(

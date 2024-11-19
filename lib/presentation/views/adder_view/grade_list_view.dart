@@ -13,6 +13,7 @@ class GradeListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<GradeModel> gradeList = [];
+    GradeModel grade = GradeModel();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -31,7 +32,7 @@ class GradeListView extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const GradeAddView(id: -1),
+                    builder: (context) => GradeAddView(grade: grade),
                   ),
                 );
               },

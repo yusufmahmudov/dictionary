@@ -61,7 +61,7 @@ class GradeListWidget extends StatelessWidget {
       },
       openBuilder: (context, action) {
         if (category.compareTo("Grade") == 0) {
-          return GradeAddView(id: grade.id!);
+          return GradeAddView(grade: grade);
         } else if (grade.category!.compareTo("Words") == 0) {
           return WordAddView(grade: grade);
         } else if (grade.category!.compareTo("Phrases") == 0) {

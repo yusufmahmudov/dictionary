@@ -1,18 +1,33 @@
 import 'package:language/data/g_model/word_model_g.dart';
+import 'package:language/data/grade_model.dart';
 import 'package:language/data/word_model.dart';
 import 'package:language/infrastructure/apis/grade_service.dart';
 import 'package:language/utils/enum_filtr.dart';
-import 'package:language/utils/log_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class WordService {
   final SupabaseClient supabase = Supabase.instance.client;
+  GradeService gradeService = GradeService();
 
-  Future<void> addWord(WordModelG word) async {
+  Future<void> addWords(List<WordModelG> words, GradeModel grade) async {
     try {
-      final response =
-          await supabase.from(Tables.word.text).insert(word.toJson()).select();
-      Log.i(response);
+      int id = grade.id!;
+      int count = grade.count! + words.length;
+
+      final List<Map<String, dynamic>> wordsData =
+          words.map((word) => word.toJson()).toList();
+
+      await supabase.from(Tables.word.text).insert(wordsData);
+
+      await gradeService.updateGrade(
+        GradeModel(
+          id: id,
+          count: count,
+          category: grade.category,
+          success: grade.success,
+          name: grade.name,
+        ),
+      );
     } catch (e) {
       throw Exception('Xatolik yuz berdi: $e');
     }

@@ -158,102 +158,109 @@ class _EnTestViewState extends State<EnTestView> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Progress indicator
-            LinearProgressIndicator(
-              value: (currentQuestionIndex + 1) / widget.count,
-              backgroundColor: Colors.grey[200],
-              valueColor:
-                  const AlwaysStoppedAnimation<Color>(Colors.blueAccent),
-            ),
-            const SizedBox(height: 32),
-
-            // Question
-            Card(
-              elevation: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  question[currentQuestionIndex].en,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            const SizedBox(height: 32),
-
-            // Options
-            Expanded(
-              child: ListView.builder(
-                itemCount: question[currentQuestionIndex].options.length,
-                itemBuilder: (context, index) {
-                  final option = question[currentQuestionIndex].options[index];
-
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12.0),
-                    child: ElevatedButton(
-                      onPressed: hasAnswered ? null : () => checkAnswer(index),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.onPrimary,
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: Text(
-                        option,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: hasAnswered &&
-                                  (selectedAnswerIndex == index ||
-                                      question[currentQuestionIndex]
-                                              .answerIndex ==
-                                          index)
-                              ? Colors.white
-                              : null,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            Padding(
+      body: question.isEmpty
+          ? const Text(
+              "Question is Empty",
+              style: TextStyle(fontSize: 24),
+            )
+          : Padding(
               padding: const EdgeInsets.all(16.0),
-              child: RichText(
-                text: TextSpan(
-                  text: 'Score: $correctAnswers/',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: black,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Progress indicator
+                  LinearProgressIndicator(
+                    value: (currentQuestionIndex + 1) / widget.count,
+                    backgroundColor: Colors.grey[200],
+                    valueColor:
+                        const AlwaysStoppedAnimation<Color>(Colors.blueAccent),
                   ),
-                  children: [
-                    TextSpan(
-                      text: "$falseAnswers",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: red,
+                  const SizedBox(height: 32),
+
+                  // Question
+                  Card(
+                    elevation: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        question[currentQuestionIndex].en,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Options
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: question[currentQuestionIndex].options.length,
+                      itemBuilder: (context, index) {
+                        final option =
+                            question[currentQuestionIndex].options[index];
+
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12.0),
+                          child: ElevatedButton(
+                            onPressed:
+                                hasAnswered ? null : () => checkAnswer(index),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.onPrimary,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Text(
+                              option,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: hasAnswered &&
+                                        (selectedAnswerIndex == index ||
+                                            question[currentQuestionIndex]
+                                                    .answerIndex ==
+                                                index)
+                                    ? Colors.white
+                                    : null,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Score: $correctAnswers/',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: black,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: "$falseAnswers",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: red,
+                            ),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 

@@ -3,6 +3,8 @@ import 'package:language/assets/color/colors.dart';
 import 'package:language/data/phrase_model.dart';
 import 'package:language/data/question.dart';
 import 'package:language/infrastructure/apis/phrase_service.dart';
+import 'package:language/presentation/views/home_view.dart';
+import 'package:language/presentation/views/new.dart';
 import 'package:language/presentation/views/test_view/en_test_view.dart';
 import 'package:language/presentation/views/test_view/mixed_test_view.dart';
 import 'package:language/presentation/views/test_view/uz_test_view.dart';
@@ -45,6 +47,9 @@ class PhraseTest extends StatelessWidget {
           c = phrase.length;
         } else {
           phrase = snapshot.data!.take(c).toList();
+        }
+        if (phrase.length < 3) {
+          return const NewView();
         }
         for (var p in phrase) {
           question.add(

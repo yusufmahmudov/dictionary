@@ -1,20 +1,33 @@
 import 'package:language/data/g_model/phrase_model_g.dart';
+import 'package:language/data/grade_model.dart';
 import 'package:language/data/phrase_model.dart';
 import 'package:language/infrastructure/apis/grade_service.dart';
 import 'package:language/utils/enum_filtr.dart';
-import 'package:language/utils/log_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class PhraseService {
   final SupabaseClient supabase = Supabase.instance.client;
+  GradeService gradeService = GradeService();
 
-  Future<void> addPhrase(PhraseModelG phrase) async {
+  Future<void> addPhrase(List<PhraseModelG> phrase, GradeModel grade) async {
     try {
-      final response = await supabase
-          .from(Tables.phrase.text)
-          .insert(phrase.toJson())
-          .select();
-      Log.i(response);
+      int id = grade.id!;
+      int count = grade.count! + phrase.length;
+
+      final List<Map<String, dynamic>> phraseData =
+          phrase.map((p) => p.toJson()).toList();
+
+      await supabase.from(Tables.phrase.text).insert(phraseData);
+
+      await gradeService.updateGrade(
+        GradeModel(
+          id: id,
+          count: count,
+          category: grade.category,
+          success: grade.success,
+          name: grade.name,
+        ),
+      );
     } catch (e) {
       throw Exception('Xatolik yuz berdi: $e');
     }

@@ -25,12 +25,12 @@ class PrincipleModelG {
       PrincipleModelG(
         name: json["name"],
         reference: json["reference"],
-        gradeId: json["gradeId"],
+        gradeId: json["grade_id"],
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "reference": reference,
-        "gradeId": gradeId,
+        "grade_id": gradeId,
       };
 }

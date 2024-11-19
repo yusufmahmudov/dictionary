@@ -25,13 +25,13 @@ class WordModel {
         id: json["id"],
         uz: json["uz"],
         en: json["en"],
-        gradeId: json["gradeId"],
+        gradeId: json["grade_id"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "uz": uz,
         "en": en,
-        "gradeId": gradeId,
+        "grade_id": gradeId,
       };
 }
