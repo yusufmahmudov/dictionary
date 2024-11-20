@@ -28,15 +28,18 @@ class _MixedTestViewState extends State<MixedTestView> {
   void initState() {
     super.initState();
     question = [];
+    int t = 0;
     for (var q in widget.list) {
       int i = Random().nextInt(3);
+      t = Random().nextInt(100);
       question.add(
         Question(
           uz: q.uz,
           en: q.en,
-          question: q.en,
+          question: t % 2 == 0 ? q.en : q.uz,
           answerIndex: i,
-          options: randomOptions(i, q.uz),
+          options:
+              t % 2 == 0 ? randomOptionsUz(i, q.uz) : randomOptionsEn(i, q.en),
         ),
       );
     }
@@ -160,7 +163,7 @@ class _MixedTestViewState extends State<MixedTestView> {
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        question[currentQuestionIndex].en,
+                        question[currentQuestionIndex].question,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -245,7 +248,7 @@ class _MixedTestViewState extends State<MixedTestView> {
     );
   }
 
-  List<String> randomOptions(int i, String uz) {
+  List<String> randomOptionsUz(int i, String uz) {
     List<String> options = [];
     for (int j = 0; j < 3; j++) {
       String t = "";
@@ -256,6 +259,22 @@ class _MixedTestViewState extends State<MixedTestView> {
       do {
         t = widget.list[Random().nextInt(widget.count)].uz;
       } while (uz.compareTo(t) == 0 || options.contains(t));
+      options.add(t);
+    }
+    return options;
+  }
+
+  List<String> randomOptionsEn(int i, String en) {
+    List<String> options = [];
+    for (int j = 0; j < 3; j++) {
+      String t = "";
+      if (j == i) {
+        options.add(en);
+        continue;
+      }
+      do {
+        t = widget.list[Random().nextInt(widget.count)].en;
+      } while (en.compareTo(t) == 0 || options.contains(t));
       options.add(t);
     }
 
