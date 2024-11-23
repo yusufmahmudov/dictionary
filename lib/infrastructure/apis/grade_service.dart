@@ -2,7 +2,6 @@ import 'package:language/data/g_model/grade_model_g.dart';
 import 'package:language/data/grade_model.dart';
 import 'package:language/data/word_model.dart';
 import 'package:language/utils/enum_filtr.dart';
-import 'package:language/utils/log_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class GradeService {
@@ -10,11 +9,7 @@ class GradeService {
 
   Future<void> addGrade(GradeModelG grade) async {
     try {
-      final response = await supabase
-          .from(Tables.grade.text)
-          .insert(grade.toJson())
-          .select();
-      Log.i(response);
+      await supabase.from(Tables.grade.text).insert(grade.toJson()).select();
     } catch (e) {
       throw Exception('Xatolik yuz berdi: $e');
     }
@@ -101,21 +96,3 @@ class GradeService {
     }
   }
 }
-
-/**
- 
- Future<List<Map<String, dynamic>>> getRandomUsers() async {
-  try {
-    final response = await supabase
-        .from('user')
-        .select()
-        .order('RANDOM()', foreignTable: null)  // Ma'lumotlarni tasodifiy tartibda oladi
-        .limit(20);                             // Faqat 20 ta yozuvni oladi
-
-    return response;
-  } catch (e) {
-    Log.e("Error fetching random users: $e");
-    return [];
-  }
-}
- */

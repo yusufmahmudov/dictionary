@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:language/application/grade/grade_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/presentation/views/adder_view/grade_list_view.dart';
 import 'package:language/presentation/widgets/builder_container.dart';
@@ -13,6 +15,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<GradeBloc>();
     return Scaffold(
       appBar: AppBar(
         iconTheme: const IconThemeData(color: black, size: 28),
@@ -36,8 +39,10 @@ class _HomeViewState extends State<HomeView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          const GradeListView(category: "Grade"),
+                      builder: (context) => BlocProvider.value(
+                        value: bloc,
+                        child: const GradeListView(category: "Grade"),
+                      ),
                     ),
                   );
                   break;

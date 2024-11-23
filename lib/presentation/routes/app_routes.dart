@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:language/application/grade/grade_bloc.dart';
 import 'package:language/presentation/routes/routes_name.dart';
 import 'package:language/presentation/views/error_view.dart';
 import 'package:language/presentation/views/home_view.dart';
@@ -18,7 +20,10 @@ class AppRoutes {
       ),
       GoRoute(
         path: AppRouteName.home,
-        builder: (context, state) => const HomeView(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => GradeBloc(),
+          child: const HomeView(),
+        ),
       ),
     ],
   );
