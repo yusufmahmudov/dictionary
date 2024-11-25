@@ -10,8 +10,13 @@ import 'package:language/presentation/views/adder_view/word_add_view.dart';
 class GradeListWidget extends StatelessWidget {
   final GradeModel grade;
   final String category;
-  const GradeListWidget(
-      {super.key, required this.grade, required this.category});
+  final int index;
+  const GradeListWidget({
+    super.key,
+    required this.grade,
+    required this.category,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +66,10 @@ class GradeListWidget extends StatelessWidget {
       },
       openBuilder: (context, action) {
         if (category.compareTo("Grade") == 0) {
-          return GradeAddView(grade: grade);
+          return GradeAddView(
+            grade: grade,
+            index: index,
+          );
         } else if (grade.category!.compareTo("Words") == 0) {
           return WordAddView(grade: grade);
         } else if (grade.category!.compareTo("Phrases") == 0) {

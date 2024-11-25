@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:language/application/grade/grade_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/g_model/grade_model_g.dart';
 import 'package:language/data/grade_model.dart';
@@ -8,7 +10,8 @@ import 'package:language/presentation/widgets/w_button.dart';
 
 class GradeAddView extends StatefulWidget {
   final GradeModel grade;
-  const GradeAddView({super.key, required this.grade});
+  final int index;
+  const GradeAddView({super.key, required this.grade, required this.index});
 
   @override
   State<GradeAddView> createState() => _GradeAddViewState();
@@ -16,32 +19,14 @@ class GradeAddView extends StatefulWidget {
 
 class _GradeAddViewState extends State<GradeAddView> {
   TextEditingController controllerGrade = TextEditingController();
+
   bool success = false;
   String? categorySelectedVal;
   final GradeService gradeService = GradeService();
 
-  Future<void> submitForm() async {
-    if (controllerGrade.text.isNotEmpty && categorySelectedVal!.isNotEmpty) {
-      if (widget.grade.id != null) {
-        await gradeService.updateGrade(GradeModel(
-            id: widget.grade.id,
-            name: controllerGrade.text,
-            success: widget.grade.success,
-            category: categorySelectedVal,
-            count: widget.grade.count));
-      } else {
-        await gradeService.addGrade(
-          GradeModelG(
-            name: controllerGrade.text,
-            category: categorySelectedVal,
-            count: 0,
-            success: false,
-          ),
-        );
-      }
-    }
-    // ignore: use_build_context_synchronously
-    Navigator.pop(context);
+  @override
+  void initState() {
+    super.initState();
   }
 
   static const menuItems = <String>[
@@ -81,13 +66,53 @@ class _GradeAddViewState extends State<GradeAddView> {
         centerTitle: true,
       ),
       bottomNavigationBar: SafeArea(
-        child: WButton(
-          color: blue,
-          height: 54,
-          margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-          text: "Save grade",
-          onTap: () {
-            submitForm();
+        child: BlocBuilder<GradeBloc, GradeState>(
+          builder: (context, state) {
+            return WButton(
+              color: blue,
+              height: 54,
+              margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              text: "Save grade",
+              onTap: () {
+                if (controllerGrade.text.isNotEmpty &&
+                    categorySelectedVal!.isNotEmpty) {
+                  if (widget.grade.id != null) {
+                    context.read<GradeBloc>().add(
+                          UpdateGradeEvent(
+                            index: widget.index,
+                            grade: GradeModel(
+                              id: widget.grade.id,
+                              name: controllerGrade.text,
+                              success: widget.grade.success,
+                              category: categorySelectedVal,
+                              count: widget.grade.count,
+                            ),
+                            onSuccess: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        );
+                  } else {
+                    context.read<GradeBloc>().add(
+                          CreateGradeEvent(
+                            grade: GradeModelG(
+                              name: controllerGrade.text,
+                              category: categorySelectedVal,
+                              count: 0,
+                              success: false,
+                            ),
+                            onSuccess: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        );
+                  }
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Fill them all")));
+                }
+              },
+            );
           },
         ),
       ),

@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 import 'package:language/data/grade_model.dart';
 import 'package:language/data/word_model.dart';
 import 'package:language/infrastructure/apis/grade_service.dart';
+import 'package:language/utils/log_service.dart';
 
 part 'grade_event.dart';
 part 'grade_state.dart';
@@ -57,14 +58,18 @@ class GradeBloc extends Bloc<GradeEvent, GradeState> {
       (event, emit) async {
         state.copyWith(statusGrade: FormzSubmissionStatus.inProgress);
         try {
-          await GradeService().addGrade(event.grade);
+          final result = await GradeService().addGrade(event.grade);
+          List<GradeModel> list = List.from(state.grade);
+          list.addAll(result);
 
-          state.copyWith(statusGrade: FormzSubmissionStatus.success);
+          emit(state.copyWith(
+            statusGrade: FormzSubmissionStatus.success,
+            grade: list,
+          ));
+          event.onSuccess();
           add(GetGradeEvent());
         } catch (e) {
-          event.onError(
-            e.toString(),
-          );
+          e.toString();
           state.copyWith(statusGrade: FormzSubmissionStatus.failure);
         }
       },
@@ -74,10 +79,21 @@ class GradeBloc extends Bloc<GradeEvent, GradeState> {
       (event, emit) async {
         emit(state.copyWith(statusGrade: FormzSubmissionStatus.inProgress));
         try {
-          await GradeService().updateGrade(event.grade);
-          state.copyWith(statusGrade: FormzSubmissionStatus.success);
-          add(GetGradeEvent());
+          final result = await GradeService().updateGrade(event.grade);
+          Log.e(result);
+
+          List<GradeModel> list = List.from(state.grade);
+          if (result.isNotEmpty) {
+            list[event.index] = result.first;
+          }
+          emit(state.copyWith(
+            grade: list,
+            statusGrade: FormzSubmissionStatus.success,
+          ));
+          Log.e(state.statusGrade);
+          event.onSuccess();
         } catch (e) {
+          Log.e(e);
           state.copyWith(statusGrade: FormzSubmissionStatus.failure);
         }
       },

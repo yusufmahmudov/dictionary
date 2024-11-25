@@ -6,16 +6,14 @@ sealed class PhraseEvent {}
 class GetPhraseEvent extends PhraseEvent {}
 
 class CreatePhraseEvent extends PhraseEvent {
-  final List<PhraseModel> words;
+  final List<PhraseModelG> phrase;
   final GradeModel grade;
   final VoidCallback onSuccess;
-  final Function(String name) onError;
 
   CreatePhraseEvent({
-    required this.words,
+    required this.phrase,
     required this.grade,
     required this.onSuccess,
-    required this.onError,
   });
 }
 

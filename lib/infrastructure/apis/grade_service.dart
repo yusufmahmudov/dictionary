@@ -7,9 +7,13 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class GradeService {
   final SupabaseClient supabase = Supabase.instance.client;
 
-  Future<void> addGrade(GradeModelG grade) async {
+  Future<List<GradeModel>> addGrade(GradeModelG grade) async {
     try {
-      await supabase.from(Tables.grade.text).insert(grade.toJson()).select();
+      final result = await supabase
+          .from(Tables.grade.text)
+          .insert(grade.toJson())
+          .select();
+      return result.map((e) => GradeModel.fromJson(e)).toList();
     } catch (e) {
       throw Exception('Xatolik yuz berdi: $e');
     }
@@ -77,12 +81,14 @@ class GradeService {
     }
   }
 
-  Future<void> updateGrade(GradeModel grade) async {
+  Future<List<GradeModel>> updateGrade(GradeModel grade) async {
     try {
-      await supabase
+      final result = await supabase
           .from(Tables.grade.text)
           .update(grade.toJson() as Map)
-          .eq('id', grade.id!);
+          .eq('id', grade.id!)
+          .select();
+      return result.map((e) => GradeModel.fromJson(e)).toList();
     } catch (e) {
       throw Exception("Xatolik yuz berdi: $e");
     }

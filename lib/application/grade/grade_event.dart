@@ -24,22 +24,22 @@ class GetGradeByCategory extends GradeEvent {
 class CreateGradeEvent extends GradeEvent {
   final GradeModelG grade;
   final VoidCallback onSuccess;
-  final Function(String name) onError;
 
   CreateGradeEvent({
     required this.grade,
     required this.onSuccess,
-    required this.onError,
   });
 }
 
 class UpdateGradeEvent extends GradeEvent {
   final GradeModel grade;
+  final int index;
   final VoidCallback onSuccess;
 
   UpdateGradeEvent({
     required this.grade,
     required this.onSuccess,
+    required this.index,
   });
 }
 

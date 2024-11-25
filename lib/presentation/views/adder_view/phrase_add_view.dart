@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:language/application/phrase/phrase_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/g_model/phrase_model_g.dart';
 import 'package:language/data/grade_model.dart';
@@ -17,6 +19,7 @@ class PhraseAddView extends StatefulWidget {
 class _PhraseAddViewState extends State<PhraseAddView> {
   late TextEditingController controllerEn;
   late TextEditingController controllerUz;
+  late final PhraseBloc phraseBloc;
   PhraseService phraseService = PhraseService();
   List<PhraseModelG> phrase = [];
 
@@ -24,6 +27,7 @@ class _PhraseAddViewState extends State<PhraseAddView> {
   void initState() {
     controllerEn = TextEditingController();
     controllerUz = TextEditingController();
+    phraseBloc = PhraseBloc();
     super.initState();
   }
 
@@ -37,11 +41,6 @@ class _PhraseAddViewState extends State<PhraseAddView> {
         ),
       );
     }
-    if (phrase.isNotEmpty) {
-      await phraseService.addPhrase(phrase, widget.grade);
-    }
-    // ignore: use_build_context_synchronously
-    Navigator.pop(context);
   }
 
   @override
@@ -60,13 +59,33 @@ class _PhraseAddViewState extends State<PhraseAddView> {
         centerTitle: true,
       ),
       bottomNavigationBar: SafeArea(
-        child: WButton(
-          color: blue,
-          height: 54,
-          margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-          text: "Save phrases",
-          onTap: () {
-            _submitForm();
+        child: BlocBuilder<PhraseBloc, PhraseState>(
+          bloc: phraseBloc,
+          builder: (context, state) {
+            return WButton(
+              color: blue,
+              height: 54,
+              margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              text: "Save phrases",
+              onTap: () {
+                _submitForm();
+                if (phrase.isNotEmpty) {
+                  phraseBloc.add(
+                    CreatePhraseEvent(
+                      phrase: phrase,
+                      grade: widget.grade,
+                      onSuccess: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Phrase is empty")));
+                  Navigator.pop(context);
+                }
+              },
+            );
           },
         ),
       ),

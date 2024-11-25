@@ -44,7 +44,10 @@ class _GradeListViewState extends State<GradeListView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => GradeAddView(grade: grade),
+                    builder: (context) => GradeAddView(
+                      grade: grade,
+                      index: 0,
+                    ),
                   ),
                 );
               },
@@ -72,7 +75,10 @@ class _GradeListViewState extends State<GradeListView> {
               itemCount: state.grade.length,
               separatorBuilder: (context, index) => const SizedBox(height: 12),
               itemBuilder: (context, index) => GradeListWidget(
-                  grade: state.grade[index], category: widget.category),
+                grade: state.grade[index],
+                category: widget.category,
+                index: index,
+              ),
             );
           },
         ),
