@@ -25,10 +25,10 @@ class GradeListWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       transitionDuration: const Duration(milliseconds: 500),
-      closedColor: Colors.blueAccent.shade100,
+      closedColor: Colors.white,
       closedBuilder: (context, action) {
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          padding: const EdgeInsets.fromLTRB(12, 0, 20, 0),
           child: SizedBox(
             height: 80,
             child: Row(
@@ -42,23 +42,45 @@ class GradeListWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Text(
-                  "${grade.count!}",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w500, fontSize: 22),
-                  overflow: TextOverflow.ellipsis,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "${grade.count!} ${grade.category!.toLowerCase()}",
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w500, fontSize: 14),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      grade.success! ? "Done" : "Not done",
+                      style: TextStyle(
+                        color: grade.success!
+                            ? const Color.fromARGB(255, 9, 171, 82)
+                            : red,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
-                Icon(
-                    grade.success!
-                        ? Icons.check_circle_rounded
-                        : Icons.circle_outlined,
-                    color: grade.success! ? green : red,
-                    size: 32),
-                const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: black,
-                  size: 28,
-                ),
+                // Text(
+                //   "${grade.count!}",
+                //   style: const TextStyle(
+                //       fontWeight: FontWeight.w500, fontSize: 22),
+                //   overflow: TextOverflow.ellipsis,
+                // ),
+                // Icon(
+                //     grade.success!
+                //         ? Icons.check_circle_rounded
+                //         : Icons.circle_outlined,
+                //     color: grade.success! ? green : red,
+                //     size: 32),
+                // const Icon(
+                //   Icons.arrow_forward_ios_rounded,
+                //   color: black,
+                //   size: 28,
+                // ),
               ],
             ),
           ),

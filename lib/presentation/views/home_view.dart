@@ -22,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
-            color: black,
+            color: white,
           ),
         ),
         centerTitle: true,

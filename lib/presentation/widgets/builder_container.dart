@@ -1,6 +1,5 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:language/assets/color/colors.dart';
 import 'package:language/presentation/views/detail_view/grade_view.dart';
 import 'package:language/presentation/views/detail_view/test_detail_view.dart';
 
@@ -16,7 +15,7 @@ class BuilderContainer extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       transitionDuration: const Duration(milliseconds: 500),
-      closedColor: Colors.blueAccent.shade100,
+      closedColor: Colors.white,
       closedBuilder: (context, action) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -32,7 +31,7 @@ class BuilderContainer extends StatelessWidget {
                 ),
                 const Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: black,
+                  color: Color.fromARGB(255, 68, 67, 67),
                   size: 28,
                 ),
               ],

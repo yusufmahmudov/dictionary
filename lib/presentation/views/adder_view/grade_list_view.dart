@@ -33,7 +33,16 @@ class _GradeListViewState extends State<GradeListView> {
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
-            color: black,
+            color: white,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: white,
           ),
         ),
         backgroundColor: Colors.blueAccent.shade400,
@@ -53,7 +62,7 @@ class _GradeListViewState extends State<GradeListView> {
               },
               icon: const Icon(
                 Icons.add,
-                color: black,
+                color: white,
                 size: 28,
               ),
             ),
