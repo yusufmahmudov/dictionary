@@ -56,7 +56,7 @@ class PhraseBloc extends Bloc<PhraseEvent, PhraseState> {
         state.copyWith(statusPhrase: FormzSubmissionStatus.inProgress);
         try {
           await PhraseService().addPhrase(event.phrase, event.grade);
-          state.copyWith(statusPhrase: FormzSubmissionStatus.success);
+          emit(state.copyWith(statusPhrase: FormzSubmissionStatus.success));
           event.onSuccess();
           add(GetPhraseEvent());
         } catch (e) {

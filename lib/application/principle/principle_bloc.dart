@@ -44,10 +44,10 @@ class PrincipleBloc extends Bloc<PrincipleEvent, PrincipleState> {
         try {
           await PrincipleService().addPrinciple(event.principle, event.grade);
 
-          state.copyWith(statusPrinciple: FormzSubmissionStatus.success);
+          emit(state.copyWith(statusPrinciple: FormzSubmissionStatus.success));
           add(GetPrincipleEvent());
         } catch (e) {
-          event.onError(e.toString());
+          e.toString();
           state.copyWith(
             statusPrinciple: FormzSubmissionStatus.failure,
           );

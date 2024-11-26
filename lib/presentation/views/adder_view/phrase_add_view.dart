@@ -19,7 +19,6 @@ class PhraseAddView extends StatefulWidget {
 class _PhraseAddViewState extends State<PhraseAddView> {
   late TextEditingController controllerEn;
   late TextEditingController controllerUz;
-  late final PhraseBloc phraseBloc;
   PhraseService phraseService = PhraseService();
   List<PhraseModelG> phrase = [];
 
@@ -27,7 +26,6 @@ class _PhraseAddViewState extends State<PhraseAddView> {
   void initState() {
     controllerEn = TextEditingController();
     controllerUz = TextEditingController();
-    phraseBloc = PhraseBloc();
     super.initState();
   }
 
@@ -60,7 +58,6 @@ class _PhraseAddViewState extends State<PhraseAddView> {
       ),
       bottomNavigationBar: SafeArea(
         child: BlocBuilder<PhraseBloc, PhraseState>(
-          bloc: phraseBloc,
           builder: (context, state) {
             return WButton(
               color: blue,
@@ -70,15 +67,15 @@ class _PhraseAddViewState extends State<PhraseAddView> {
               onTap: () {
                 _submitForm();
                 if (phrase.isNotEmpty) {
-                  phraseBloc.add(
-                    CreatePhraseEvent(
-                      phrase: phrase,
-                      grade: widget.grade,
-                      onSuccess: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  );
+                  context.read<PhraseBloc>().add(
+                        CreatePhraseEvent(
+                          phrase: phrase,
+                          grade: widget.grade,
+                          onSuccess: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text("Phrase is empty")));

@@ -15,11 +15,9 @@ class CreatePrincipleEvent extends PrincipleEvent {
   final List<PrincipleModelG> principle;
   final GradeModel grade;
   final VoidCallback onSuccess;
-  final Function(String name) onError;
 
-  CreatePrincipleEvent(
-    this.onSuccess,
-    this.onError, {
+  CreatePrincipleEvent({
+    required this.onSuccess,
     required this.principle,
     required this.grade,
   });

@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:language/application/grade/grade_bloc.dart';
 import 'package:language/assets/color/colors.dart';
-import 'package:language/data/grade_model.dart';
-import 'package:language/infrastructure/apis/grade_service.dart';
 import 'package:language/presentation/widgets/grade_detail_widget.dart';
 
 class GradeView extends StatefulWidget {
@@ -20,7 +21,13 @@ class GradeView extends StatefulWidget {
 }
 
 class _GradeViewState extends State<GradeView> {
-  List<GradeModel> grade = [];
+  @override
+  void initState() {
+    context
+        .read<GradeBloc>()
+        .add(GetGradeByCategory(category: widget.gradeName));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,33 +56,34 @@ class _GradeViewState extends State<GradeView> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        child: FutureBuilder(
-          future: GradeService().fetchGradeByCategory(widget.gradeName),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        child: BlocBuilder<GradeBloc, GradeState>(
+          builder: (context, state) {
+            if (state.statusGrade.isInProgress) {
               return const CupertinoActivityIndicator(
                 radius: 15.0,
                 color: blue,
               );
-            } else if (snapshot.hasError) {
-              return Text('Xatolik: ${snapshot.error}');
-            } else if (snapshot.hasData) {
-              grade = snapshot.data!.toList();
-              return ListView.separated(
-                itemCount: grade.length,
-                separatorBuilder: (BuildContext context, int index) {
-                  return const SizedBox(height: 12);
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return GradeDetailWidget(
-                    test: widget.test,
-                    count: widget.count,
-                    grade: grade[index],
-                  );
-                },
+            } else if (state.grade.isEmpty) {
+              return const Center(
+                child: Text(
+                  "Grade is empty",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                ),
               );
             }
-            return const CircularProgressIndicator.adaptive();
+            return ListView.separated(
+              itemCount: state.grade.length,
+              separatorBuilder: (BuildContext context, int index) {
+                return const SizedBox(height: 12);
+              },
+              itemBuilder: (BuildContext context, int index) {
+                return GradeDetailWidget(
+                  test: widget.test,
+                  count: widget.count,
+                  grade: state.grade[index],
+                );
+              },
+            );
           },
         ),
       ),

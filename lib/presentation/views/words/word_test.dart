@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:language/application/word/word_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/question.dart';
 import 'package:language/data/word_model.dart';
-import 'package:language/infrastructure/apis/word_service.dart';
 import 'package:language/presentation/views/new.dart';
 import 'package:language/presentation/views/test_view/en_test_view.dart';
 import 'package:language/presentation/views/test_view/mixed_test_view.dart';
@@ -26,26 +29,32 @@ class WordTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<WordBloc>().add(GetWordsEvent());
     int c = count;
     if (c == 0) {
       c = 10;
     }
-    return FutureBuilder(
-      future: WordService().fetchWordByGrade(gradeId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+    return BlocBuilder<WordBloc, WordState>(
+      builder: (context, state) {
+        if (state.statusWord.isInProgress) {
           return const CupertinoActivityIndicator(
             radius: 15.0,
             color: blue,
           );
-        } else if (snapshot.hasError) {
-          return Text('Xatolik: ${snapshot.error}');
+        } else if (state.words.isEmpty) {
+          return const Center(
+            child: Text(
+              "Word is empty",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+            ),
+          );
         }
-        if (c == -1 || c > snapshot.data!.length) {
-          words = snapshot.data!.toList();
+
+        if (c == -1 || c > state.words.length) {
+          words = state.words.toList();
           c = words.length;
         } else {
-          words = snapshot.data!.take(c).toList();
+          words = state.words.take(c).toList();
         }
         if (words.length < 3) {
           return const NewView();
@@ -72,7 +81,14 @@ class WordTest extends StatelessWidget {
           return WrittenTestView(test: test, count: c, list: question);
         }
 
-        return const Placeholder();
+        return const Scaffold(
+          body: Center(
+            child: Text(
+              "An error occurred",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+            ),
+          ),
+        );
       },
     );
   }

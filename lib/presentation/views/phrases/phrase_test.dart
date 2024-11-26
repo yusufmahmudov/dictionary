@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:language/application/phrase/phrase_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/phrase_model.dart';
 import 'package:language/data/question.dart';
-import 'package:language/infrastructure/apis/phrase_service.dart';
 import 'package:language/presentation/views/new.dart';
 import 'package:language/presentation/views/test_view/en_test_view.dart';
 import 'package:language/presentation/views/test_view/mixed_test_view.dart';
@@ -26,26 +29,32 @@ class PhraseTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<PhraseBloc>().add(GetPhraseEvent());
     int c = count;
     if (c == 0) {
       c = 10;
     }
-    return FutureBuilder(
-      future: PhraseService().fetchPhraseByGrade(gradeId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+    return BlocBuilder<PhraseBloc, PhraseState>(
+      builder: (context, state) {
+        if (state.statusPhrase.isInProgress) {
           return const CupertinoActivityIndicator(
             radius: 15.0,
             color: blue,
           );
-        } else if (snapshot.hasError) {
-          return Text('Xatolik: ${snapshot.error}');
+        } else if (state.phrase.isEmpty) {
+          return const Center(
+            child: Text(
+              "Phrase is empty",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+            ),
+          );
         }
-        if (c == -1 || c > snapshot.data!.length) {
-          phrase = snapshot.data!.toList();
+
+        if (c == -1 || c > state.phrase.length) {
+          phrase = state.phrase.toList();
           c = phrase.length;
         } else {
-          phrase = snapshot.data!.take(c).toList();
+          phrase = state.phrase.take(c).toList();
         }
         if (phrase.length < 3) {
           return const NewView();
@@ -72,7 +81,14 @@ class PhraseTest extends StatelessWidget {
           return WrittenTestView(test: test, count: c, list: question);
         }
 
-        return const Placeholder();
+        return const Scaffold(
+          body: Center(
+            child: Text(
+              "An error occurred",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+            ),
+          ),
+        );
       },
     );
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:language/application/principle/principle_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/g_model/principle_model_g.dart';
 import 'package:language/data/grade_model.dart';
@@ -37,11 +39,6 @@ class _PrincipleAddViewState extends State<PrincipleAddView> {
         ),
       );
     }
-    if (principles.isNotEmpty) {
-      await principleService.addPrinciple(principles, widget.grade);
-    }
-    // ignore: use_build_context_synchronously
-    Navigator.pop(context);
   }
 
   @override
@@ -60,13 +57,32 @@ class _PrincipleAddViewState extends State<PrincipleAddView> {
         centerTitle: true,
       ),
       bottomNavigationBar: SafeArea(
-        child: WButton(
-          color: blue,
-          height: 54,
-          margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-          text: "Save principle",
-          onTap: () {
-            _submitForm();
+        child: BlocBuilder<PrincipleBloc, PrincipleState>(
+          builder: (context, state) {
+            return WButton(
+              color: blue,
+              height: 54,
+              margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              text: "Save principle",
+              onTap: () {
+                _submitForm();
+                if (principles.isNotEmpty) {
+                  context.read<PrincipleBloc>().add(
+                        CreatePrincipleEvent(
+                          principle: principles,
+                          grade: widget.grade,
+                          onSuccess: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Principle is empty")));
+                  Navigator.pop(context);
+                }
+              },
+            );
           },
         ),
       ),

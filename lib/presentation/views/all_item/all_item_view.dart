@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:language/application/word/word_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/grade_model.dart';
-import 'package:language/data/word_model.dart';
-import 'package:language/infrastructure/apis/grade_service.dart';
 
 class AllItemView extends StatelessWidget {
   final GradeModel grade;
@@ -11,7 +12,7 @@ class AllItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<WordModel> words = [];
+    context.read<WordBloc>().add(GetWordsByGrade(gradeId: grade.id!));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent.shade400,
@@ -24,39 +25,33 @@ class AllItemView extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        // actions: [
-        //   Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        //     child: Icon(
-        //       Icons.edit,
-        //       color: black,
-        //     ),
-        //   )
-        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        child: FutureBuilder(
-          future: GradeService().fetchGradeByIdAll(grade.id!, grade.category!),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        child: BlocBuilder<WordBloc, WordState>(
+          builder: (context, state) {
+            if (state.statusWord.isInProgress) {
               return const CupertinoActivityIndicator(
                 radius: 15.0,
                 color: blue,
               );
-            } else if (snapshot.hasError) {
-              return Text('Xatolik: ${snapshot.error}');
+            } else if (state.words.isEmpty) {
+              return const Center(
+                child: Text(
+                  "Grade is empty",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                ),
+              );
             }
-            words = snapshot.data!.toList();
             return ListView.separated(
-              itemCount: words.length,
+              itemCount: state.words.length,
               separatorBuilder: (BuildContext context, int index) =>
                   const SizedBox(height: 0),
               itemBuilder: (BuildContext context, int index) {
                 return ExpansionTile(
-                  title: Text("${words[index].en}"),
+                  title: Text("${state.words[index].en}"),
                   children: <Widget>[
-                    ListTile(title: Text("${words[index].uz}")),
+                    ListTile(title: Text("${state.words[index].uz}")),
                   ],
                 );
               },

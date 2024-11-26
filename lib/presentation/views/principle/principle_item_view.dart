@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:language/application/principle/principle_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/grade_model.dart';
-import 'package:language/data/principle_model.dart';
-import 'package:language/infrastructure/apis/principle_service.dart';
 
 class PrincipleItemView extends StatelessWidget {
   final GradeModel grade;
@@ -11,7 +12,7 @@ class PrincipleItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<PrincipleModel> principle = [];
+    context.read<PrincipleBloc>().add(GetPrincipleByGrade(gradeId: grade.id!));
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent.shade400,
@@ -27,28 +28,31 @@ class PrincipleItemView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        child: FutureBuilder(
-          future: PrincipleService().fetchPrincipleByGrade(grade.id!),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        child: BlocBuilder<PrincipleBloc, PrincipleState>(
+          builder: (context, state) {
+            if (state.statusPrinciple.isInProgress) {
               return const CupertinoActivityIndicator(
                 radius: 15.0,
                 color: blue,
               );
-            } else if (snapshot.hasError) {
-              return Text('Xatolik: ${snapshot.error}');
+            } else if (state.principle.isEmpty) {
+              return const Center(
+                child: Text(
+                  "Grade is empty",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                ),
+              );
             }
-            principle = snapshot.data!.toList();
             return ListView.separated(
-              itemCount: principle.length,
+              itemCount: state.principle.length,
               separatorBuilder: (BuildContext context, int index) =>
                   const SizedBox(height: 0),
               itemBuilder: (BuildContext context, int index) {
                 return ExpansionTile(
-                  title: Text(principle[index].name!),
+                  title: Text(state.principle[index].name!),
                   // subtitle: Text('Trailing expansion arrow icon'),
                   children: <Widget>[
-                    ListTile(title: Text(principle[index].reference!)),
+                    ListTile(title: Text(state.principle[index].reference!)),
                   ],
                 );
               },

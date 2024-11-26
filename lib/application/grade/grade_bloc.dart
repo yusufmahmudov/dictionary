@@ -90,7 +90,6 @@ class GradeBloc extends Bloc<GradeEvent, GradeState> {
             grade: list,
             statusGrade: FormzSubmissionStatus.success,
           ));
-          Log.e(state.statusGrade);
           event.onSuccess();
         } catch (e) {
           Log.e(e);

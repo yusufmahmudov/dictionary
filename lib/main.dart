@@ -12,5 +12,6 @@ void main() async {
       // url: SUPABASE_URL,
       // anonKey: SUPABASE_ANON_KEY,
       );
+
   runApp(const AppView());
 }

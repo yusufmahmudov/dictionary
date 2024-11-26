@@ -70,6 +70,13 @@ class _GradeListViewState extends State<GradeListView> {
                 radius: 15.0,
                 color: blue,
               );
+            } else if (state.grade.isEmpty) {
+              return const Center(
+                child: Text(
+                  "Grade is empty",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
+                ),
+              );
             }
             return ListView.separated(
               itemCount: state.grade.length,

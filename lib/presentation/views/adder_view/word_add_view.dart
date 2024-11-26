@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:language/application/word/word_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/g_model/word_model_g.dart';
 import 'package:language/data/grade_model.dart';
@@ -37,11 +39,6 @@ class _WordAddViewState extends State<WordAddView> {
         ),
       );
     }
-    if (words.isNotEmpty) {
-      await wordService.addWords(words, widget.grade);
-    }
-    // ignore: use_build_context_synchronously
-    Navigator.pop(context);
   }
 
   @override
@@ -60,13 +57,32 @@ class _WordAddViewState extends State<WordAddView> {
         centerTitle: true,
       ),
       bottomNavigationBar: SafeArea(
-        child: WButton(
-          color: blue,
-          height: 54,
-          margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-          text: "Save words",
-          onTap: () {
-            _submitForm();
+        child: BlocBuilder<WordBloc, WordState>(
+          builder: (context, state) {
+            return WButton(
+              color: blue,
+              height: 54,
+              margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              text: "Save words",
+              onTap: () {
+                _submitForm();
+                if (words.isNotEmpty) {
+                  context.read<WordBloc>().add(
+                        CreateWordsEvent(
+                          words: words,
+                          grade: widget.grade,
+                          onSuccess: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Words is empty")));
+                  Navigator.pop(context);
+                }
+              },
+            );
           },
         ),
       ),
