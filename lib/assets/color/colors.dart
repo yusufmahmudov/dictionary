@@ -44,6 +44,7 @@ const redOrange30 = _redOrange30;
 const redOrange40 = _redOrange40;
 const natural10 = _natural10;
 const natural20 = _natural20;
+const newGrey = _newGrey;
 
 const _white = Color(0xffFFFFFF);
 const _black = Color(0xFF000000);
@@ -92,6 +93,7 @@ const _redOrange30 = Color(0xFFEE8B8B);
 const _redOrange40 = Color(0xFFE86565);
 const _natural10 = Color(0xFFF1F1F1);
 const _natural20 = Color.fromARGB(255, 174, 174, 174);
+const _newGrey = Color(0xFFF2F2F2);
 
 List<BoxShadow> wboxShadow = [
   BoxShadow(

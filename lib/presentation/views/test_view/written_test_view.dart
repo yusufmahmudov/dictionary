@@ -124,10 +124,19 @@ class _WrittenTestViewState extends State<WrittenTestView> {
           style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w500,
-            color: black,
+            color: white,
           ),
         ),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: white,
+          ),
+        ),
       ),
       body: question.isEmpty
           ? const Text(

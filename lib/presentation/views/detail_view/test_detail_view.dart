@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
+import 'package:language/assets/icons.dart';
 import 'package:language/presentation/widgets/test_detail_widget.dart';
 import 'package:language/utils/caller.dart';
 
@@ -24,7 +25,7 @@ class _TestDetailViewState extends State<TestDetailView> {
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
-            color: black,
+            color: white,
           ),
         ),
         centerTitle: true,
@@ -34,7 +35,7 @@ class _TestDetailViewState extends State<TestDetailView> {
             icon: const Icon(
               Icons.more_vert,
               size: 28,
-              color: black,
+              color: white,
             ),
             itemBuilder: (context) {
               return [
@@ -70,30 +71,47 @@ class _TestDetailViewState extends State<TestDetailView> {
             },
           ),
         ],
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: white,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
         child: Column(
           children: [
             TestDetailWidget(
-                test: "Test English",
-                appBarText: widget.appBarText,
-                count: count),
+              test: "Test English",
+              appBarText: widget.appBarText,
+              count: count,
+              c: 0,
+            ),
             const SizedBox(height: 12),
             TestDetailWidget(
-                test: "Test Uzbek",
-                appBarText: widget.appBarText,
-                count: count),
+              test: "Test Uzbek",
+              appBarText: widget.appBarText,
+              count: count,
+              c: -1,
+            ),
             const SizedBox(height: 12),
             TestDetailWidget(
-                test: "Test mixed",
-                appBarText: widget.appBarText,
-                count: count),
+              test: "Test mixed",
+              appBarText: widget.appBarText,
+              count: count,
+              c: -2,
+            ),
             const SizedBox(height: 12),
             TestDetailWidget(
-                test: "Written test",
-                appBarText: widget.appBarText,
-                count: count),
+              test: "Written test",
+              appBarText: widget.appBarText,
+              count: count,
+              c: -3,
+            ),
             const SizedBox(height: 12),
             GestureDetector(
               onTap: () => Caller.launchUrlWeb(
@@ -103,21 +121,31 @@ class _TestDetailViewState extends State<TestDetailView> {
                   borderRadius: BorderRadius.circular(12),
                   color: Colors.blueAccent.shade100,
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: SizedBox(
-                    height: 80,
+                    height: 70,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        Container(
+                          child: AppIcons.how.svg(
+                            height: 24,
+                            width: 24,
+                            color: white,
+                          ),
+                        ),
+                        const Text(
                           "How to pronounce",
                           style: TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 22),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 22,
+                            color: white,
+                          ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward_ios_rounded,
-                          color: black,
+                          color: white,
                           size: 28,
                         ),
                       ],

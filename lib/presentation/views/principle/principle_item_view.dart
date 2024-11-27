@@ -21,7 +21,7 @@ class PrincipleItemView extends StatelessWidget {
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
-            color: black,
+            color: white,
           ),
         ),
         centerTitle: true,

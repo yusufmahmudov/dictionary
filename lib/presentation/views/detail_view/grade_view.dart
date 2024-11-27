@@ -39,7 +39,16 @@ class _GradeViewState extends State<GradeView> {
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
-            color: black,
+            color: white,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: white,
           ),
         ),
         centerTitle: true,
@@ -49,7 +58,7 @@ class _GradeViewState extends State<GradeView> {
             icon: const Icon(
               Icons.search,
               size: 26,
-              color: black,
+              color: white,
             ),
           )
         ],

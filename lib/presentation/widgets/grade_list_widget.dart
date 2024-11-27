@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:language/assets/color/colors.dart';
+import 'package:language/assets/icons.dart';
 import 'package:language/data/grade_model.dart';
 import 'package:language/presentation/views/adder_view/grade_add_view.dart';
 import 'package:language/presentation/views/adder_view/phrase_add_view.dart';
@@ -30,15 +32,20 @@ class GradeListWidget extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 20, 0),
           child: SizedBox(
-            height: 80,
+            height: 70,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                Container(child: selectIcon(grade.success!)),
+                const SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     grade.name!,
                     style: const TextStyle(
-                        fontWeight: FontWeight.w500, fontSize: 22),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 22,
+                      color: white,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -64,23 +71,6 @@ class GradeListWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                // Text(
-                //   "${grade.count!}",
-                //   style: const TextStyle(
-                //       fontWeight: FontWeight.w500, fontSize: 22),
-                //   overflow: TextOverflow.ellipsis,
-                // ),
-                // Icon(
-                //     grade.success!
-                //         ? Icons.check_circle_rounded
-                //         : Icons.circle_outlined,
-                //     color: grade.success! ? green : red,
-                //     size: 32),
-                // const Icon(
-                //   Icons.arrow_forward_ios_rounded,
-                //   color: black,
-                //   size: 28,
-                // ),
               ],
             ),
           ),
@@ -102,5 +92,13 @@ class GradeListWidget extends StatelessWidget {
         return const Scaffold();
       },
     );
+  }
+
+  SvgPicture selectIcon(bool g) {
+    if (g) {
+      return AppIcons.star.svg(width: 24, height: 24, color: green);
+    } else {
+      return AppIcons.star.svg(width: 24, height: 24, color: red);
+    }
   }
 }

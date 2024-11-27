@@ -60,10 +60,19 @@ class _GradeAddViewState extends State<GradeAddView> {
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w500,
-            color: black,
+            color: white,
           ),
         ),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: white,
+          ),
+        ),
       ),
       bottomNavigationBar: SafeArea(
         child: BlocBuilder<GradeBloc, GradeState>(

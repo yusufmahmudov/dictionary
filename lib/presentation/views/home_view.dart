@@ -14,6 +14,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: white,
       appBar: AppBar(
         iconTheme: const IconThemeData(color: black, size: 28),
         backgroundColor: Colors.blueAccent.shade400,
@@ -28,7 +29,11 @@ class _HomeViewState extends State<HomeView> {
         centerTitle: true,
         actions: [
           PopupMenuButton<int>(
-            icon: const Icon(Icons.more_vert),
+            color: white,
+            icon: const Icon(
+              Icons.more_vert,
+              color: white,
+            ),
             onSelected: (value) {
               // Har bir element bosilganda nima bo'lishini sozlang
               switch (value) {
@@ -107,15 +112,35 @@ class _HomeViewState extends State<HomeView> {
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
         child: Column(
           children: [
-            BuilderContainer(text: "Random dictionary"),
+            BuilderContainer(
+              text: "Random dictionary",
+              textBody: "Some random words",
+              c: 0,
+            ),
             SizedBox(height: 12),
-            BuilderContainer(text: "Words"),
+            BuilderContainer(
+              text: "Words",
+              textBody: "A set of tests using words",
+              c: -1,
+            ),
             SizedBox(height: 12),
-            BuilderContainer(text: "Phrases"),
+            BuilderContainer(
+              text: "Phrases",
+              textBody: "A set of tests using phrases",
+              c: -2,
+            ),
             SizedBox(height: 12),
-            BuilderContainer(text: "All dictionaries"),
+            BuilderContainer(
+              text: "All dictionaries",
+              textBody: "All words and phrases",
+              c: -3,
+            ),
             SizedBox(height: 12),
-            BuilderContainer(text: "Principle"),
+            BuilderContainer(
+              text: "Principle",
+              textBody: "The entire set of principle",
+              c: -4,
+            ),
             SizedBox(height: 12),
           ],
         ),
