@@ -30,8 +30,8 @@ class AppIcons {
   static const principle = "assets/icons/principle.svg";
   static const star = "assets/icons/star.svg";
   static const uz = "assets/icons/uz.svg";
-  static const en = "assets/icons/en_1.svg";
-  static const mix = "assets/icons/mix.svg";
+  static const en = "assets/icons/en.svg";
+  static const mix = "assets/icons/mix_1.svg";
   static const how = "assets/icons/how.svg";
   static const write = "assets/icons/write.svg";
 }

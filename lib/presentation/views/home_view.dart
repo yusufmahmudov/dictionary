@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
+import 'package:language/presentation/views/adder_view/grade_list_category.dart';
 import 'package:language/presentation/views/adder_view/grade_list_view.dart';
 import 'package:language/presentation/widgets/builder_container.dart';
 
@@ -51,7 +52,7 @@ class _HomeViewState extends State<HomeView> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          const GradeListView(category: "Words"),
+                          const GradeListCategory(category: "Words"),
                     ),
                   );
                   break;
@@ -60,7 +61,7 @@ class _HomeViewState extends State<HomeView> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          const GradeListView(category: "Phrases"),
+                          const GradeListCategory(category: "Phrases"),
                     ),
                   );
                   break;
@@ -69,7 +70,7 @@ class _HomeViewState extends State<HomeView> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          const GradeListView(category: "Principle"),
+                          const GradeListCategory(category: "Principle"),
                     ),
                   );
                   break;

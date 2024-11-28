@@ -1,6 +1,5 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/assets/icons.dart';
 import 'package:language/presentation/views/detail_view/grade_view.dart';
@@ -32,11 +31,23 @@ class TestDetailWidget extends StatelessWidget {
           child: SizedBox(
             height: 70,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  child: selectIcon(c),
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent.withOpacity(.4),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Center(
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: selectedIcon(c),
+                    ),
+                  ),
                 ),
+                const SizedBox(width: 10),
                 Text(
                   test,
                   style: const TextStyle(
@@ -45,11 +56,11 @@ class TestDetailWidget extends StatelessWidget {
                     color: white,
                   ),
                 ),
-                const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: white,
-                  size: 28,
-                ),
+                // const Icon(
+                //   Icons.arrow_forward_ios_rounded,
+                //   color: white,
+                //   size: 28,
+                // ),
               ],
             ),
           ),
@@ -70,15 +81,27 @@ class TestDetailWidget extends StatelessWidget {
     );
   }
 
-  SvgPicture selectIcon(int c) {
+  Widget selectedIcon(int c) {
     if (c == 0) {
-      return AppIcons.en.svg(width: 24, height: 24, color: white);
+      return Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: AppIcons.en.svg(width: 24, height: 24, color: white),
+      );
     } else if (c == -1) {
-      return AppIcons.uz.svg(width: 24, height: 24, color: white);
+      return Padding(
+        padding: const EdgeInsets.all(2.0),
+        child: AppIcons.uz.svg(width: 36, height: 36, color: white),
+      );
     } else if (c == -2) {
-      return AppIcons.mix.svg(width: 24, height: 24, color: white);
+      return Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: AppIcons.mix.svg(width: 24, height: 24, color: white),
+      );
     } else {
-      return AppIcons.write.svg(width: 24, height: 24, color: white);
+      return Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: AppIcons.write.svg(width: 24, height: 24, color: white),
+      );
     }
   }
 }

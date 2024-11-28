@@ -48,3 +48,9 @@ class SelGradeEvent extends GradeEvent {
 
   SelGradeEvent({required this.index});
 }
+
+class DeleteGradeEvent extends GradeEvent {
+  final int index;
+
+  DeleteGradeEvent({required this.index});
+}

@@ -31,6 +31,7 @@ class _TestDetailViewState extends State<TestDetailView> {
         centerTitle: true,
         actions: [
           PopupMenuButton(
+            color: white,
             iconSize: 24,
             icon: const Icon(
               Icons.more_vert,
@@ -40,28 +41,28 @@ class _TestDetailViewState extends State<TestDetailView> {
             itemBuilder: (context) {
               return [
                 PopupMenuItem(
-                  child: const Text("10"),
+                  child: const Text("10 test"),
                   onTap: () {
                     count = 10;
                     setState(() {});
                   },
                 ),
                 PopupMenuItem(
-                  child: const Text("20"),
+                  child: const Text("20 test"),
                   onTap: () {
                     count = 20;
                     setState(() {});
                   },
                 ),
                 PopupMenuItem(
-                  child: const Text("30"),
+                  child: const Text("30 test"),
                   onTap: () {
                     count = 30;
                     setState(() {});
                   },
                 ),
                 PopupMenuItem(
-                  child: const Text("All"),
+                  child: const Text("All test"),
                   onTap: () {
                     count = -1;
                     setState(() {});
@@ -126,15 +127,30 @@ class _TestDetailViewState extends State<TestDetailView> {
                   child: SizedBox(
                     height: 70,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Container(
-                          child: AppIcons.how.svg(
-                            height: 24,
-                            width: 24,
-                            color: white,
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent.withOpacity(.4),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Center(
+                              child: AspectRatio(
+                                aspectRatio: 1,
+                                child: AppIcons.how.svg(
+                                  height: 24,
+                                  width: 24,
+                                  color: white,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
+                        const SizedBox(width: 10),
                         const Text(
                           "How to pronounce",
                           style: TextStyle(
@@ -143,11 +159,11 @@ class _TestDetailViewState extends State<TestDetailView> {
                             color: white,
                           ),
                         ),
-                        const Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: white,
-                          size: 28,
-                        ),
+                        // const Icon(
+                        //   Icons.arrow_forward_ios_rounded,
+                        //   color: white,
+                        //   size: 28,
+                        // ),
                       ],
                     ),
                   ),

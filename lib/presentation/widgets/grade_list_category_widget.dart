@@ -4,16 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/assets/icons.dart';
 import 'package:language/data/grade_model.dart';
-import 'package:language/presentation/views/adder_view/grade_edit_view.dart';
+import 'package:language/presentation/views/adder_view/phrase_add_view.dart';
+import 'package:language/presentation/views/adder_view/principle_add_view.dart';
+import 'package:language/presentation/views/adder_view/word_add_view.dart';
 
-class GradeListWidget extends StatelessWidget {
+class GradeListCategoryWidget extends StatelessWidget {
   final GradeModel grade;
-  final int index;
-  const GradeListWidget({
-    super.key,
-    required this.grade,
-    required this.index,
-  });
+  const GradeListCategoryWidget({super.key, required this.grade});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +22,7 @@ class GradeListWidget extends StatelessWidget {
       closedColor: Colors.white,
       closedBuilder: (context, action) {
         return Padding(
-          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+          padding: const EdgeInsets.fromLTRB(12, 0, 20, 0),
           child: SizedBox(
             height: 70,
             child: Row(
@@ -44,7 +41,6 @@ class GradeListWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const SizedBox(width: 2),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -67,49 +63,20 @@ class GradeListWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(width: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => GradeEditView(
-                              grade: grade,
-                              index: index,
-                            ),
-                          ),
-                        );
-                      },
-                      child: const Icon(
-                        Icons.edit_outlined,
-                        color: blue,
-                        size: 26,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const Icon(
-                        Icons.delete_outline,
-                        color: red,
-                        size: 28,
-                      ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
         );
       },
       openBuilder: (context, action) {
-        return GradeEditView(
-          grade: grade,
-          index: index,
-        );
+        if (grade.category!.compareTo("Words") == 0) {
+          return WordAddView(grade: grade);
+        } else if (grade.category!.compareTo("Phrases") == 0) {
+          return PhraseAddView(grade: grade);
+        } else if (grade.category!.compareTo("Principle") == 0) {
+          return PrincipleAddView(grade: grade);
+        }
+        return const Scaffold();
       },
     );
   }
