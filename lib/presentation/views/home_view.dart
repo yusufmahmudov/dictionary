@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/presentation/views/adder_view/grade_list_category.dart';
 import 'package:language/presentation/views/adder_view/grade_list_view.dart';
+import 'package:language/presentation/views/profile/login_view.dart';
 import 'package:language/presentation/widgets/builder_container.dart';
 
 class HomeView extends StatefulWidget {
@@ -31,9 +32,12 @@ class _HomeViewState extends State<HomeView> {
         actions: [
           PopupMenuButton<int>(
             color: white,
-            icon: const Icon(
-              Icons.more_vert,
-              color: white,
+            icon: const Padding(
+              padding: EdgeInsets.only(right: 8),
+              child: Icon(
+                Icons.dehaze_sharp,
+                color: white,
+              ),
             ),
             onSelected: (value) {
               // Har bir element bosilganda nima bo'lishini sozlang
@@ -74,6 +78,14 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   );
                   break;
+                case 4:
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LoginView(),
+                    ),
+                  );
+                  break;
               }
             },
             itemBuilder: (context) => [
@@ -103,6 +115,13 @@ class _HomeViewState extends State<HomeView> {
                 child: ListTile(
                   leading: Icon(Icons.my_library_add_outlined),
                   title: Text('New principle'),
+                ),
+              ),
+              const PopupMenuItem(
+                value: 4,
+                child: ListTile(
+                  leading: Icon(Icons.person_outline_outlined),
+                  title: Text('My Profile'),
                 ),
               ),
             ],

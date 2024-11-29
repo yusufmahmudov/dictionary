@@ -15,6 +15,7 @@ class GradeModel {
   final bool? success;
   final String? category;
   final int? count;
+  final int? usersId;
 
   GradeModel({
     this.id,
@@ -22,6 +23,7 @@ class GradeModel {
     this.success,
     this.category,
     this.count,
+    this.usersId,
   });
 
   factory GradeModel.fromJson(Map<String, dynamic> json) => GradeModel(
@@ -30,6 +32,7 @@ class GradeModel {
         success: json["success"],
         category: json["category"],
         count: json["count"],
+        usersId: json["users_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,5 +41,6 @@ class GradeModel {
         "success": success,
         "category": category,
         "count": count,
+        "users_id": usersId,
       };
 }

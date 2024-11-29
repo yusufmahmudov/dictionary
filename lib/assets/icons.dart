@@ -34,6 +34,7 @@ class AppIcons {
   static const mix = "assets/icons/mix_1.svg";
   static const how = "assets/icons/how.svg";
   static const write = "assets/icons/write.svg";
+  static const quiz = "assets/icons/quiz_1.svg";
 }
 
 extension SvgExt on String {
