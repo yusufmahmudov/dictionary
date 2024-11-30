@@ -6,6 +6,8 @@ abstract class AppRouteName {
   static const support = '/support';
   static const auth = '/auth';
   static const start = "/start";
+  static const register = "/register";
+  static const login = "/login";
 
   static const home = '/home';
   static const add = '/add';
