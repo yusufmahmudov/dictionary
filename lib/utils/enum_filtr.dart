@@ -35,13 +35,15 @@ enum Tables {
   grade,
   phrase,
   principle,
-  word;
+  word,
+  user;
 
   String get text => switch (this) {
         Tables.grade => 'grade',
         Tables.phrase => 'phrase',
         Tables.principle => 'principle',
         Tables.word => 'word',
+        Tables.user => 'users',
       };
 }
 
