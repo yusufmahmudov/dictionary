@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+
 import 'package:language/data/g_model/users_model_g.dart';
 import 'package:language/data/login.dart';
 import 'package:language/data/register.dart';
 import 'package:language/data/users_model.dart';
 import 'package:language/utils/enum_filtr.dart';
+import 'package:language/utils/generate_random.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserService {
@@ -44,7 +48,12 @@ class UserService {
 
   Future<List<Users>> checkLogin(Login login) async {
     try {
-      final response = await supabase.from(Tables.user.text).select();
+      final response = await supabase
+          .from(Tables.user.text)
+          .select()
+          .eq("phone", login.phone);
+
+      if (response.isNotEmpty) {}
 
       return response.map((e) => Users.fromJson(e)).toList();
     } catch (e) {
@@ -55,6 +64,22 @@ class UserService {
   Future<List<Users>> checkRegister(Register register) async {
     try {
       final response = await supabase.from(Tables.user.text).select();
+      String salt = generateRandomPassword(16);
+      String saltedText = salt + register.password + salt;
+
+      var bytes = utf8.encode(saltedText);
+      var hash = md5.convert(bytes);
+
+      if (response.isNotEmpty) {
+        return [];
+      }
+
+      UserModelG user = UserModelG(
+        name: register.name,
+        phone: register.phone,
+        salt: salt,
+        password: hash.toString(),
+      );
 
       return response.map((e) => Users.fromJson(e)).toList();
     } catch (e) {
