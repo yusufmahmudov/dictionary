@@ -44,11 +44,9 @@ class SelUserEvent extends UserEvent {
 
 class CheckLoginEvent extends UserEvent {
   final Login login;
-  final VoidCallback onSuccess;
 
   CheckLoginEvent({
     required this.login,
-    required this.onSuccess,
   });
 }
 

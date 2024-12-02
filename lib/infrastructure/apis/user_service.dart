@@ -1,4 +1,5 @@
 import 'dart:convert';
+// ignore: depend_on_referenced_packages
 import 'package:crypto/crypto.dart';
 
 import 'package:language/data/g_model/users_model_g.dart';
@@ -14,7 +15,8 @@ class UserService {
 
   Future<List<Users>> addUser(UserModelG user) async {
     try {
-      final response = await supabase.from(Tables.user.text).select();
+      final response =
+          await supabase.from(Tables.user.text).insert(user).select();
 
       return response.map((e) => Users.fromJson(e)).toList();
     } catch (e) {
@@ -46,33 +48,58 @@ class UserService {
     }
   }
 
-  Future<List<Users>> checkLogin(Login login) async {
+  Future<Login> checkLogin(Login login) async {
     try {
       final response = await supabase
           .from(Tables.user.text)
           .select()
           .eq("phone", login.phone);
 
-      if (response.isNotEmpty) {}
+      if (response.isEmpty) {
+        login.success = false;
+        login.id = -1;
+        return login;
+      }
 
-      return response.map((e) => Users.fromJson(e)).toList();
+      Users user = response.map((e) => Users.fromJson(e)).toList().first;
+      String pass = user.password!;
+      String saltedText = user.salt! + login.password + user.salt!;
+
+      var bytes = utf8.encode(saltedText);
+      var hash = md5.convert(bytes);
+
+      if (hash.toString() == pass) {
+        login.success = true;
+        login.id = user.id!;
+        return login;
+      }
+
+      login.success = false;
+
+      return login;
     } catch (e) {
       throw Exception("Xatolik yuz berdi $e");
     }
   }
 
-  Future<List<Users>> checkRegister(Register register) async {
+  Future<Register> checkRegister(Register register) async {
     try {
-      final response = await supabase.from(Tables.user.text).select();
+      final response = await supabase
+          .from(Tables.user.text)
+          .select()
+          .eq("phone", register.phone);
+
+      if (response.isNotEmpty) {
+        register.success = false;
+        register.id = -1;
+        return register;
+      }
+
       String salt = generateRandomPassword(16);
       String saltedText = salt + register.password + salt;
 
       var bytes = utf8.encode(saltedText);
       var hash = md5.convert(bytes);
-
-      if (response.isNotEmpty) {
-        return [];
-      }
 
       UserModelG user = UserModelG(
         name: register.name,
@@ -81,7 +108,22 @@ class UserService {
         password: hash.toString(),
       );
 
-      return response.map((e) => Users.fromJson(e)).toList();
+      final responseData =
+          await supabase.from(Tables.user.text).insert(user).select();
+
+      if (responseData.isEmpty) {
+        register.success = false;
+        register.id = -2;
+        return register;
+      }
+
+      Users userData =
+          responseData.map((e) => Users.fromJson(e)).toList().first;
+
+      register.success = true;
+      register.id = userData.id!;
+
+      return register;
     } catch (e) {
       throw Exception("Xatolik yuz berdi $e");
     }

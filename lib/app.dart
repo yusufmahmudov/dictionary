@@ -4,6 +4,7 @@ import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:language/application/grade/grade_bloc.dart';
 import 'package:language/application/phrase/phrase_bloc.dart';
 import 'package:language/application/principle/principle_bloc.dart';
+import 'package:language/application/user/user_bloc.dart';
 import 'package:language/application/word/word_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/presentation/routes/app_routes.dart';
@@ -26,6 +27,9 @@ class AppView extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => PrincipleBloc(),
+        ),
+        BlocProvider(
+          create: (context) => UserBloc(),
         ),
       ],
       child: MaterialApp.router(

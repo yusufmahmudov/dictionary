@@ -1,9 +1,13 @@
 class Login {
   final String phone;
   final String password;
+  int id;
+  bool success;
 
   Login({
-    required this.phone,
-    required this.password,
+    this.id = -1,
+    this.success = false,
+    this.phone = '',
+    this.password = '',
   });
 }

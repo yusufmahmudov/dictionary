@@ -63,5 +63,77 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<SelUserEvent>((event, emit) async {
       emit(state.copyWith(selUser: event.index));
     });
+
+    on<CheckLoginEvent>((event, emit) async {
+      emit(state.copyWith(statusUser: FormzSubmissionStatus.inProgress));
+
+      try {
+        final result = await UserService().checkLogin(event.login);
+
+        if (result.success) {
+          emit(
+            state.copyWith(
+              statusUser: FormzSubmissionStatus.success,
+              login: result,
+            ),
+          );
+        } else if (!result.success && result.id == -1) {
+          // telefon raqam mavjud emas
+          emit(
+            state.copyWith(
+              statusUser: FormzSubmissionStatus.failure,
+              login: result,
+            ),
+          );
+        } else if (!result.success) {
+          // Parol mos kelmadi
+          emit(
+            state.copyWith(
+              statusUser: FormzSubmissionStatus.canceled,
+              login: result,
+            ),
+          );
+        }
+      } catch (e) {
+        emit(state.copyWith(statusUser: FormzSubmissionStatus.failure));
+      }
+    });
+
+    on<CheckRegisterEvent>((event, emit) async {
+      emit(state.copyWith(statusUser: FormzSubmissionStatus.inProgress));
+
+      try {
+        final result = await UserService().checkRegister(event.register);
+
+        if (result.success) {
+          emit(
+            state.copyWith(
+              statusUser: FormzSubmissionStatus.success,
+              register: result,
+            ),
+          );
+        } else if (!result.success && result.id == -2) {
+          // serverdan qaytgan xatolik
+          emit(
+            state.copyWith(
+              statusUser: FormzSubmissionStatus.failure,
+              register: result,
+            ),
+          );
+        } else if (result.id == -1) {
+          // Bu raqam allaqachon mavjud
+          emit(
+            state.copyWith(
+              statusUser: FormzSubmissionStatus.canceled,
+              register: result,
+            ),
+          );
+        }
+      } catch (e) {
+        emit(
+          state.copyWith(statusUser: FormzSubmissionStatus.failure),
+        );
+      }
+    });
   }
 }

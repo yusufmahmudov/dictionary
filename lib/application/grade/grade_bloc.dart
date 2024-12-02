@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 import 'package:language/data/grade_model.dart';
 import 'package:language/data/word_model.dart';
 import 'package:language/infrastructure/apis/grade_service.dart';
-import 'package:language/utils/log_service.dart';
 
 part 'grade_event.dart';
 part 'grade_state.dart';
@@ -91,7 +90,6 @@ class GradeBloc extends Bloc<GradeEvent, GradeState> {
           ));
           event.onSuccess();
         } catch (e) {
-          Log.e(e);
           state.copyWith(statusGrade: FormzSubmissionStatus.failure);
         }
       },

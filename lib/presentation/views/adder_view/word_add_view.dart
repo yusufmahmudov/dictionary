@@ -29,7 +29,7 @@ class _WordAddViewState extends State<WordAddView> {
     super.initState();
   }
 
-  Future<void> _submitForm() async {
+  void _submitForm() {
     if (controllerEn.text.isNotEmpty && controllerUz.text.isNotEmpty) {
       words.add(
         WordModelG(
