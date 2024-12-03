@@ -2,14 +2,14 @@ class Register {
   final String name;
   final String phone;
   final String password;
-  bool success;
   int id;
+  bool success;
 
-  Register(
-    this.id,
-    this.success, {
-    required this.name,
-    required this.phone,
-    required this.password,
+  Register({
+    this.id = -1,
+    this.success = false,
+    this.name = '',
+    this.phone = '',
+    this.password = '',
   });
 }

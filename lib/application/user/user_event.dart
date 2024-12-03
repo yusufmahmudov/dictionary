@@ -8,11 +8,7 @@ class GetAllUsersEvent extends UserEvent {
   GetAllUsersEvent({required this.id});
 }
 
-class GetUserById extends UserEvent {
-  final int id;
-
-  GetUserById({required this.id});
-}
+class GetUserById extends UserEvent {}
 
 class CreateUserEvent extends UserEvent {
   final UserModelG users;
@@ -52,10 +48,8 @@ class CheckLoginEvent extends UserEvent {
 
 class CheckRegisterEvent extends UserEvent {
   final Register register;
-  final VoidCallback onSuccess;
 
   CheckRegisterEvent({
     required this.register,
-    required this.onSuccess,
   });
 }

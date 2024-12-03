@@ -8,8 +8,8 @@ import 'package:language/assets/color/colors.dart';
 import 'package:language/assets/icons.dart';
 import 'package:language/data/login.dart';
 import 'package:language/presentation/routes/routes_name.dart';
-import 'package:language/presentation/views/home_view.dart';
 import 'package:language/presentation/widgets/custom_text_field.dart';
+import 'package:language/utils/custom_toast_bar.dart';
 import 'package:language/utils/formatters.dart';
 
 class LoginView extends StatefulWidget {
@@ -27,12 +27,12 @@ class _LoginViewState extends State<LoginView> {
   bool hasUpperCase = false;
   bool hasLowerCase = false;
   bool hasMinLength = false;
+  bool hasCorrectText = false;
 
   @override
   void initState() {
     controllerPhone = TextEditingController();
     controllerPassword = TextEditingController();
-
     super.initState();
   }
 
@@ -41,6 +41,7 @@ class _LoginViewState extends State<LoginView> {
       hasUpperCase = value.contains(RegExp(r'[A-Z]'));
       hasLowerCase = value.contains(RegExp(r'[a-z]'));
       hasMinLength = value.length >= 8;
+      hasCorrectText = value.contains(' ') == true ? false : true;
     });
   }
 
@@ -57,6 +58,8 @@ class _LoginViewState extends State<LoginView> {
         return -4; // -4 - hasLowerCase
       } else if (!hasMinLength) {
         return -5; // -5 - minLength
+      } else if (!hasCorrectText) {
+        return -7;
       }
       if (controllerPhone.text.length != 19) {
         return -6; // -6 telefon raqamni to'g'riligini tekshirish
@@ -74,22 +77,26 @@ class _LoginViewState extends State<LoginView> {
           // BLoC holatiga qarab turli reaktsiyalarni ko'rsatish
           if (state.statusUser == FormzSubmissionStatus.success) {
             // Login muvaffaqiyatli bo'lsa
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeView(),
-              ),
+            showCustomToast(
+              context: context,
+              message: "Welcome back!",
+              time: 4,
+              color: green,
             );
+            context.go(AppRouteName.home);
+
+            // Navigator.push(
+            //    context,
+            //   MaterialPageRoute(
+            //     builder: (context) => const HomeView(),
+            //   ),
+            // );
           } else if (state.statusUser == FormzSubmissionStatus.failure) {
-            // Telefon raqam yoki parol noto'g'ri bo'lsa
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Invalid phone number or password")),
-            );
+            // Telefon raqam mavjud emas
+            showCustomToast(context: context, message: "Invalid phone number");
           } else if (state.statusUser == FormzSubmissionStatus.canceled) {
             // Parol mos kelmasa
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text("Incorrect password")),
-            );
+            showCustomToast(context: context, message: "Incorrect password");
           }
         },
         builder: (context, state) {
@@ -207,26 +214,31 @@ class _LoginViewState extends State<LoginView> {
                   onTap: () {
                     int i = _submitForm();
                     if (i == -1) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Fill in all fields!")));
+                      showCustomToast(
+                          context: context, message: "Fill in all fields!");
                     } else if (i == -2) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text(
-                              "Must contain uppercase and lowercase letters and at least 8 characters")));
+                      showCustomToast(
+                          context: context,
+                          message:
+                              "Must contain uppercase and lowercase letters and at least 8 characters");
                     } else if (i == -3) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Uppercase letter!")));
+                      showCustomToast(
+                          context: context, message: "Uppercase letter!");
                     } else if (i == -4) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Lowercase letter!")));
+                      showCustomToast(
+                          context: context, message: "Lowercase letter!");
                     } else if (i == -5) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content:
-                              Text("Must be at least 8 characters long!")));
+                      showCustomToast(
+                          context: context,
+                          message: "Must be at least 8 characters long!");
                     } else if (i == -6) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content:
-                              Text("Please enter the correct phone number!")));
+                      showCustomToast(
+                          context: context,
+                          message: "Please enter the correct phone number!");
+                    } else if (i == -7) {
+                      showCustomToast(
+                          context: context,
+                          message: "Password must not contain spaces!");
                     }
                     if (i == 0) {
                       final login = Login(
@@ -239,7 +251,6 @@ class _LoginViewState extends State<LoginView> {
                             ),
                           );
                     }
-                    // context.go(AppRouteName.home);
                   },
                   child: Container(
                     height: 50,

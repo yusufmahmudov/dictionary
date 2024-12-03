@@ -75,6 +75,7 @@ class UserService {
       }
 
       login.success = false;
+      login.id = -2;
 
       return login;
     } catch (e) {

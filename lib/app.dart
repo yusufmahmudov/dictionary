@@ -7,7 +7,10 @@ import 'package:language/application/principle/principle_bloc.dart';
 import 'package:language/application/user/user_bloc.dart';
 import 'package:language/application/word/word_bloc.dart';
 import 'package:language/assets/color/colors.dart';
+import 'package:language/assets/constants/storage_keys.dart';
+import 'package:language/infrastructure/repository/storage_repository.dart';
 import 'package:language/presentation/routes/app_routes.dart';
+import 'package:language/presentation/routes/routes_name.dart';
 
 class AppView extends StatelessWidget {
   const AppView({super.key});
@@ -29,7 +32,10 @@ class AppView extends StatelessWidget {
           create: (context) => PrincipleBloc(),
         ),
         BlocProvider(
-          create: (context) => UserBloc(),
+          create: (context) => UserBloc()
+            ..add(
+              GetUserById(),
+            ),
         ),
       ],
       child: MaterialApp.router(
@@ -39,7 +45,21 @@ class AppView extends StatelessWidget {
         theme:
             ThemeData(appBarTheme: const AppBarTheme(surfaceTintColor: white)),
         builder: (context, child) {
-          return KeyboardDismisser(child: child);
+          return BlocListener<UserBloc, UserState>(
+            listener: (context, state) {
+              switch (state.statusAuth) {
+                case AuthenticationStatus.unauthenticated:
+                  AppRoutes.router.pushReplacement(AppRouteName.login);
+                  break;
+                case AuthenticationStatus.authenticated:
+                  AppRoutes.router.pushReplacement(AppRouteName.home);
+                case AuthenticationStatus.loading:
+                case AuthenticationStatus.cancelLoading:
+                  break;
+              }
+            },
+            child: KeyboardDismisser(child: child),
+          );
         },
       ),
     );

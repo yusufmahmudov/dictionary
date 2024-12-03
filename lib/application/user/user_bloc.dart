@@ -1,16 +1,26 @@
 import 'dart:ui';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:language/data/g_model/users_model_g.dart';
 import 'package:language/data/login.dart';
 import 'package:language/data/register.dart';
 import 'package:language/data/users_model.dart';
 import 'package:language/infrastructure/apis/user_service.dart';
+import 'package:language/infrastructure/repository/storage_repository.dart';
+
+import '../../assets/constants/storage_keys.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
+
+enum AuthenticationStatus {
+  authenticated,
+  unauthenticated,
+  loading,
+  cancelLoading,
+}
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(const UserState()) {
@@ -27,10 +37,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     on<GetUserById>((event, emit) async {
       emit(state.copyWith(statusUser: FormzSubmissionStatus.inProgress));
-      final result = await UserService().fetchUserById(event.id);
+      int id = StorageRepository.getInt(StorageKeys.USERID);
+      final result = await UserService().fetchUserById(id);
+
+      if (result.isEmpty) {}
 
       emit(
         state.copyWith(
+          statusAuth: AuthenticationStatus.authenticated,
           statusUser: FormzSubmissionStatus.success,
           users: result,
         ),
@@ -73,9 +87,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         if (result.success) {
           emit(
             state.copyWith(
+              statusAuth: AuthenticationStatus.authenticated,
               statusUser: FormzSubmissionStatus.success,
               login: result,
             ),
+          );
+          await StorageRepository.putInt(
+            StorageKeys.USERID,
+            result.id,
           );
         } else if (!result.success && result.id == -1) {
           // telefon raqam mavjud emas
@@ -108,9 +127,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         if (result.success) {
           emit(
             state.copyWith(
+              statusAuth: AuthenticationStatus.authenticated,
               statusUser: FormzSubmissionStatus.success,
               register: result,
             ),
+          );
+          await StorageRepository.putInt(
+            StorageKeys.USERID,
+            result.id,
           );
         } else if (!result.success && result.id == -2) {
           // serverdan qaytgan xatolik

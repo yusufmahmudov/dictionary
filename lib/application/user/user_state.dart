@@ -1,6 +1,7 @@
 part of 'user_bloc.dart';
 
 class UserState extends Equatable {
+  final AuthenticationStatus statusAuth;
   final FormzSubmissionStatus statusUser;
   final List<Users> users;
   final Login? login;
@@ -8,6 +9,7 @@ class UserState extends Equatable {
   final int selUser;
 
   const UserState({
+    this.statusAuth = AuthenticationStatus.loading,
     this.statusUser = FormzSubmissionStatus.initial,
     this.users = const [],
     this.login,
@@ -16,9 +18,11 @@ class UserState extends Equatable {
   });
 
   @override
-  List<Object?> get props => [statusUser, users, selUser, login, register];
+  List<Object?> get props =>
+      [statusAuth, statusUser, users, selUser, login, register];
 
   UserState copyWith({
+    AuthenticationStatus? statusAuth,
     FormzSubmissionStatus? statusUser,
     List<Users>? users,
     Login? login,
@@ -26,6 +30,7 @@ class UserState extends Equatable {
     int? selUser,
   }) {
     return UserState(
+      statusAuth: statusAuth ?? this.statusAuth,
       statusUser: statusUser ?? this.statusUser,
       users: users ?? this.users,
       login: login ?? this.login,
