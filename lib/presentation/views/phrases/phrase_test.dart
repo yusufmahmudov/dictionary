@@ -29,7 +29,7 @@ class PhraseTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<PhraseBloc>().add(GetPhraseEvent());
+    context.read<PhraseBloc>().add(GetPhraseByGrade(gradeId: gradeId));
     int c = count;
     if (c == 0) {
       c = 10;

@@ -120,6 +120,7 @@ class _GradeEditViewState extends State<GradeEditView> {
                             success: success,
                             category: categorySelectedVal,
                             count: widget.grade.count,
+                            usersId: widget.grade.usersId,
                           ),
                           onSuccess: () {
                             Navigator.of(context).pop();

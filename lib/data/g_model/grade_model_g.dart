@@ -14,7 +14,7 @@ class GradeModelG {
   final bool? success;
   final String? category;
   final int? count;
-  final int? usersId;
+  int? usersId;
 
   GradeModelG({
     this.name,

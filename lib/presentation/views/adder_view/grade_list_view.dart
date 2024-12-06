@@ -87,6 +87,9 @@ class _GradeListViewState extends State<GradeListView> {
                 ),
               );
             }
+            state.grade.sort(
+                (a, b) => a.success.toString().compareTo(b.success.toString()));
+
             return ListView.separated(
               itemCount: state.grade.length,
               separatorBuilder: (context, index) => const SizedBox(height: 12),

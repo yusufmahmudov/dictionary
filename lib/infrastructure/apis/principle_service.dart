@@ -1,7 +1,9 @@
+import 'package:language/assets/constants/storage_keys.dart';
 import 'package:language/data/g_model/principle_model_g.dart';
 import 'package:language/data/grade_model.dart';
 import 'package:language/data/principle_model.dart';
 import 'package:language/infrastructure/apis/grade_service.dart';
+import 'package:language/infrastructure/repository/storage_repository.dart';
 import 'package:language/utils/enum_filtr.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -27,6 +29,7 @@ class PrincipleService {
           category: grade.category,
           success: grade.success,
           name: grade.name,
+          usersId: grade.usersId,
         ),
       );
     } catch (e) {
@@ -37,8 +40,12 @@ class PrincipleService {
   // hamma principlelar
   Future<List<PrincipleModel>> fetchPrinciple() async {
     try {
-      final List<dynamic> response =
-          await supabase.from(Tables.principle.text).select();
+      int userId = StorageRepository.getInt(StorageKeys.USERID);
+
+      final List<dynamic> response = await supabase
+          .from(Tables.principle.text)
+          .select()
+          .eq("users_id", userId);
       return response.map((e) => PrincipleModel.fromJson(e)).toList();
     } catch (e) {
       throw Exception("Xatolik yuz berdi: $e");

@@ -119,13 +119,18 @@ class _TestDetailViewState extends State<TestDetailView> {
                   "https://www.google.com/search?q=How%20to%20pronounce"),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.blueAccent.shade100,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.elliptical(30, 30),
+                    topRight: Radius.elliptical(3, 3),
+                    bottomLeft: Radius.elliptical(3, 3),
+                    bottomRight: Radius.elliptical(30, 30),
+                  ),
+                  color: Colors.blueAccent.shade200,
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: SizedBox(
-                    height: 70,
+                    height: 80,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -133,7 +138,7 @@ class _TestDetailViewState extends State<TestDetailView> {
                           height: 50,
                           width: 50,
                           decoration: BoxDecoration(
-                            color: Colors.blueAccent.withOpacity(.4),
+                            color: Colors.blueAccent.shade100,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Padding(

@@ -20,16 +20,21 @@ class TestDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OpenContainer(
-      closedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+      closedShape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.elliptical(30, 30),
+          topRight: Radius.elliptical(3, 3),
+          bottomLeft: Radius.elliptical(3, 3),
+          bottomRight: Radius.elliptical(30, 30),
+        ),
       ),
       transitionDuration: const Duration(milliseconds: 500),
-      closedColor: Colors.blueAccent.shade100,
+      closedColor: Colors.blueAccent.shade200,
       closedBuilder: (context, action) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: SizedBox(
-            height: 70,
+            height: 80,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -37,7 +42,7 @@ class TestDetailWidget extends StatelessWidget {
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                    color: Colors.blueAccent.withOpacity(.4),
+                    color: Colors.blueAccent.shade100,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Center(

@@ -22,20 +22,35 @@ class GradeDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OpenContainer(
-      closedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+      closedShape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.elliptical(30, 30),
+          topRight: Radius.elliptical(3, 3),
+          bottomLeft: Radius.elliptical(3, 3),
+          bottomRight: Radius.elliptical(30, 30),
+        ),
       ),
       transitionDuration: const Duration(milliseconds: 500),
-      closedColor: Colors.blueAccent.shade100,
+      closedColor: Colors.blueAccent.shade200,
       closedBuilder: (context, action) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: SizedBox(
-            height: 70,
+            height: 80,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(child: selectIcon(grade.success!)),
+                Container(
+                  height: 30,
+                  width: 30,
+                  decoration: const BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(3),
+                    ),
+                  ),
+                  child: selectIcon(grade.success!),
+                ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -64,7 +79,7 @@ class GradeDetailWidget extends StatelessWidget {
                       grade.success! ? "Done" : "Not done",
                       style: TextStyle(
                         color: grade.success!
-                            ? const Color.fromARGB(255, 9, 171, 82)
+                            ? const Color.fromARGB(255, 18, 216, 107)
                             : red,
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
@@ -95,7 +110,10 @@ class GradeDetailWidget extends StatelessWidget {
 
   SvgPicture selectIcon(bool g) {
     if (g) {
-      return AppIcons.star.svg(width: 24, height: 24, color: green);
+      return AppIcons.star.svg(
+          width: 24,
+          height: 24,
+          color: const Color.fromARGB(255, 18, 216, 107));
     } else {
       return AppIcons.star.svg(width: 24, height: 24, color: red);
     }

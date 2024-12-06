@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:language/app.dart';
 import 'package:language/infrastructure/repository/storage_repository.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {

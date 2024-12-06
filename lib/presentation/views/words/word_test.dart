@@ -29,7 +29,7 @@ class WordTest extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<WordBloc>().add(GetWordsEvent());
+    context.read<WordBloc>().add(GetWordsByGrade(gradeId: gradeId));
     int c = count;
     if (c == 0) {
       c = 10;

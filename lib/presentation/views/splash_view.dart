@@ -37,7 +37,7 @@ class _SplashViewState extends State<SplashView> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Center(
-            child: AppIcons.quiz.svg(height: 120, color: white),
+            child: AppIcons.quiz.svg(height: 180, color: white),
           ),
         ),
       ),

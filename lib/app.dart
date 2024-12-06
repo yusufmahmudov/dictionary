@@ -7,8 +7,6 @@ import 'package:language/application/principle/principle_bloc.dart';
 import 'package:language/application/user/user_bloc.dart';
 import 'package:language/application/word/word_bloc.dart';
 import 'package:language/assets/color/colors.dart';
-import 'package:language/assets/constants/storage_keys.dart';
-import 'package:language/infrastructure/repository/storage_repository.dart';
 import 'package:language/presentation/routes/app_routes.dart';
 import 'package:language/presentation/routes/routes_name.dart';
 

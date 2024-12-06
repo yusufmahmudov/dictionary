@@ -94,6 +94,7 @@ class _GradeAddViewState extends State<GradeAddView> {
                               success: widget.grade.success,
                               category: categorySelectedVal,
                               count: widget.grade.count,
+                              usersId: widget.grade.id,
                             ),
                             onSuccess: () {
                               Navigator.of(context).pop();
