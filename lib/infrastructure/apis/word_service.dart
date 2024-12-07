@@ -5,7 +5,6 @@ import 'package:language/data/word_model.dart';
 import 'package:language/infrastructure/apis/grade_service.dart';
 import 'package:language/infrastructure/repository/storage_repository.dart';
 import 'package:language/utils/enum_filtr.dart';
-import 'package:language/utils/log_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class WordService {
@@ -57,7 +56,6 @@ class WordService {
           .from(Tables.word.text)
           .select()
           .eq('grade_id', gradeId);
-      Log.i(response.length);
       return response.map((e) => WordModel.fromJson(e)).toList();
     } catch (e) {
       throw Exception("Xatolik yuz berdi: $e");
@@ -70,7 +68,6 @@ class WordService {
       final List<int> gradeIds =
           await GradeService().fetchGradeIdByQuery('Words', active);
       String ids = gradeIds.join(",");
-      Log.i("ID: $ids  LIST: $gradeIds");
 
       final response = await supabase
           .from(Tables.word.text)

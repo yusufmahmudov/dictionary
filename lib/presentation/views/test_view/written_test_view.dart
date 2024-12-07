@@ -92,7 +92,7 @@ class _WrittenTestViewState extends State<WrittenTestView> {
       }
     });
 
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (currentQuestionIndex < widget.count - 1) {
         setState(() {
           currentQuestionIndex++;
@@ -138,12 +138,36 @@ class _WrittenTestViewState extends State<WrittenTestView> {
           ),
         ),
       ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 22.0),
+        child: RichText(
+          text: TextSpan(
+            text: 'Score: $correctAnswers/',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: black,
+            ),
+            children: [
+              TextSpan(
+                text: "$falseAnswers",
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: red,
+                ),
+              ),
+            ],
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
       body: question.isEmpty
           ? const Text(
               "Question is Empty",
               style: TextStyle(fontSize: 24),
             )
-          : Padding(
+          : SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -155,13 +179,21 @@ class _WrittenTestViewState extends State<WrittenTestView> {
                         const AlwaysStoppedAnimation<Color>(Colors.blueAccent),
                   ),
                   const SizedBox(height: 32),
-                  Card(
-                    elevation: 1,
-                    color: Colors.grey.shade200,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: borderColor, width: 2),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.elliptical(30, 30),
+                        topRight: Radius.elliptical(3, 3),
+                        bottomLeft: Radius.elliptical(3, 3),
+                        bottomRight: Radius.elliptical(30, 30),
+                      ),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        question[currentQuestionIndex].uz,
+                        question[currentQuestionIndex].en,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -171,66 +203,40 @@ class _WrittenTestViewState extends State<WrittenTestView> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        CustomTextField(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          controller: controller,
-                          hintText: "Answer",
-                          borderColor: blue,
-                        ),
-                        const SizedBox(height: 8),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12.0, vertical: 6.0),
-                          child: InkWell(
-                            onTap: () => checkAnswer(controller.text),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              height: 56,
-                              decoration: BoxDecoration(
-                                color: backgroundColor,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              alignment: Alignment.center,
-                              child: const Text(
-                                "Next",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: RichText(
-                      text: TextSpan(
-                        text: 'Score: $correctAnswers/',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: black,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: "$falseAnswers",
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: red,
-                            ),
-                          ),
-                        ],
+                  Column(
+                    children: [
+                      CustomTextField(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        controller: controller,
+                        hintText: "Answer",
+                        borderColor: blue,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
+                      const SizedBox(height: 8),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12.0, vertical: 6.0),
+                        child: InkWell(
+                          onTap: () => checkAnswer(controller.text),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: backgroundColor,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            alignment: Alignment.center,
+                            child: const Text(
+                              "Next",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ],
               ),

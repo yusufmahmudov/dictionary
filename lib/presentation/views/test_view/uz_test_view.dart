@@ -58,7 +58,7 @@ class _UzTestViewState extends State<UzTestView> {
       }
     });
 
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (currentQuestionIndex < widget.count - 1) {
         setState(() {
           currentQuestionIndex++;
@@ -124,7 +124,7 @@ class _UzTestViewState extends State<UzTestView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
+      // backgroundColor: white,
       appBar: AppBar(
         backgroundColor: Colors.blueAccent.shade400,
         title: Text(
@@ -163,13 +163,21 @@ class _UzTestViewState extends State<UzTestView> {
                         const AlwaysStoppedAnimation<Color>(Colors.blueAccent),
                   ),
                   const SizedBox(height: 32),
-                  Card(
-                    elevation: 1,
-                    color: Colors.grey.shade200,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: borderColor, width: 2),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.elliptical(30, 30),
+                        topRight: Radius.elliptical(3, 3),
+                        bottomLeft: Radius.elliptical(3, 3),
+                        bottomRight: Radius.elliptical(30, 30),
+                      ),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        question[currentQuestionIndex].uz,
+                        question[currentQuestionIndex].en,
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -185,14 +193,35 @@ class _UzTestViewState extends State<UzTestView> {
                       itemBuilder: (context, index) {
                         final option =
                             question[currentQuestionIndex].options[index];
+                        String char = ["A", "B", "C", "D"][index];
 
-                        Color backgroundColor = Colors.grey.shade200;
+                        Color backgroundColor = white;
+                        Color borderColor = grayLight;
+                        Icon icon = const Icon(
+                          Icons.circle_outlined,
+                          size: 24,
+                          color: Color.fromARGB(255, 199, 199, 199),
+                        );
                         if (hasAnswered) {
                           if (index ==
                               question[currentQuestionIndex].answerIndex) {
-                            backgroundColor = Colors.green;
+                            backgroundColor = const Color.fromARGB(
+                                255, 149, 247, 152); // Correct answer
+                            icon = const Icon(
+                              Icons.check_circle,
+                              size: 24,
+                              color: Colors.green,
+                            );
+                            borderColor = green;
                           } else if (index == selectedAnswerIndex) {
-                            backgroundColor = Colors.red;
+                            backgroundColor = const Color.fromARGB(255, 253,
+                                144, 136); // Incorrect selected answer
+                            icon = const Icon(
+                              Icons.cancel,
+                              size: 24,
+                              color: red,
+                            );
+                            borderColor = red;
                           }
                         }
 
@@ -204,18 +233,48 @@ class _UzTestViewState extends State<UzTestView> {
                                 hasAnswered ? null : () => checkAnswer(index),
                             child: Container(
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              height: 58,
                               decoration: BoxDecoration(
                                 color: backgroundColor,
-                                borderRadius: BorderRadius.circular(12),
+                                border:
+                                    Border.all(color: borderColor, width: 2),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.elliptical(30, 30),
+                                  topRight: Radius.elliptical(3, 3),
+                                  bottomLeft: Radius.elliptical(3, 3),
+                                  bottomRight: Radius.elliptical(30, 30),
+                                ),
                               ),
                               alignment: Alignment.center,
-                              child: Text(
-                                option,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      char,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
+                                        child: Text(
+                                          option,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    icon
+                                  ],
                                 ),
                               ),
                             ),
@@ -256,7 +315,7 @@ class _UzTestViewState extends State<UzTestView> {
 
   List<String> randomOptions(int i, String en) {
     List<String> options = [];
-    for (int j = 0; j < 3; j++) {
+    for (int j = 0; j < 4; j++) {
       String t = "";
       if (j == i) {
         options.add(en);
