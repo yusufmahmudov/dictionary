@@ -63,7 +63,9 @@ class UserService {
 
       Users user = response.map((e) => Users.fromJson(e)).toList().first;
       String pass = user.password!;
-      String saltedText = user.salt! + login.password + user.salt!;
+      String saltedText = user.salt!.substring(0, 16) +
+          login.password +
+          user.salt!.substring(0, 16);
 
       var bytes = utf8.encode(saltedText);
       var hash = md5.convert(bytes);
@@ -105,7 +107,7 @@ class UserService {
       UserModelG user = UserModelG(
         name: register.name,
         phone: register.phone,
-        salt: salt,
+        salt: salt + register.password,
         password: hash.toString(),
       );
 

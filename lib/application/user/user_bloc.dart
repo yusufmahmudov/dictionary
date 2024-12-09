@@ -72,11 +72,25 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           statusUser: FormzSubmissionStatus.success,
         ),
       );
+      event.onSuccess();
     });
 
     on<SelUserEvent>((event, emit) async {
       emit(state.copyWith(selUser: event.index));
     });
+
+    on<LogOutUserEvent>(
+      (event, emit) {
+        emit(state.copyWith(statusUser: FormzSubmissionStatus.inProgress));
+
+        emit(
+          state.copyWith(
+            statusAuth: AuthenticationStatus.unauthenticated,
+            statusUser: FormzSubmissionStatus.success,
+          ),
+        );
+      },
+    );
 
     on<CheckLoginEvent>((event, emit) async {
       emit(state.copyWith(statusUser: FormzSubmissionStatus.inProgress));

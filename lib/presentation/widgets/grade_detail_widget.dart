@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:language/assets/color/colors.dart';
@@ -21,19 +20,51 @@ class GradeDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OpenContainer(
-      closedShape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.elliptical(30, 30),
-          topRight: Radius.elliptical(3, 3),
-          bottomLeft: Radius.elliptical(3, 3),
-          bottomRight: Radius.elliptical(30, 30),
+    return GestureDetector(
+      onTap: () {
+        if (count == -2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AllItemView(grade: grade),
+            ),
+          );
+        } else if (count == -3) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PrincipleItemView(grade: grade),
+            ),
+          );
+        } else if (grade.category!.compareTo("Words") == 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  WordTest(test: test, count: count, gradeId: grade.id!),
+            ),
+          );
+        } else if (grade.category!.compareTo("Phrases") == 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  PhraseTest(test: test, count: count, gradeId: grade.id!),
+            ),
+          );
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.elliptical(30, 30),
+            topRight: Radius.elliptical(3, 3),
+            bottomLeft: Radius.elliptical(3, 3),
+            bottomRight: Radius.elliptical(30, 30),
+          ),
+          color: Colors.blueAccent.shade200,
         ),
-      ),
-      transitionDuration: const Duration(milliseconds: 500),
-      closedColor: Colors.blueAccent.shade200,
-      closedBuilder: (context, action) {
-        return Padding(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: SizedBox(
             height: 80,
@@ -91,20 +122,8 @@ class GradeDetailWidget extends StatelessWidget {
               ],
             ),
           ),
-        );
-      },
-      openBuilder: (context, action) {
-        if (count == -2) {
-          return AllItemView(grade: grade);
-        } else if (count == -3) {
-          return PrincipleItemView(grade: grade);
-        } else if (grade.category!.compareTo("Words") == 0) {
-          return WordTest(test: test, count: count, gradeId: grade.id!);
-        } else if (grade.category!.compareTo("Phrases") == 0) {
-          return PhraseTest(test: test, count: count, gradeId: grade.id!);
-        }
-        return const Scaffold();
-      },
+        ),
+      ),
     );
   }
 

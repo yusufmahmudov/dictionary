@@ -44,6 +44,5 @@ class Users {
         "phone": phone,
         "password": password,
         "salt": salt,
-        "created_at": createdAt,
       };
 }

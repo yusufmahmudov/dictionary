@@ -4,6 +4,7 @@ import 'package:language/presentation/routes/routes_name.dart';
 import 'package:language/presentation/views/error_view.dart';
 import 'package:language/presentation/views/home_view.dart';
 import 'package:language/presentation/views/profile/login_view.dart';
+import 'package:language/presentation/views/profile/profile_view.dart';
 import 'package:language/presentation/views/profile/register_view.dart';
 import 'package:language/presentation/views/splash_view.dart';
 
@@ -34,6 +35,10 @@ class AppRoutes {
       GoRoute(
         path: AppRouteName.splash,
         builder: (context, state) => const SplashView(),
+      ),
+      GoRoute(
+        path: AppRouteName.profile,
+        builder: (context, state) => const ProfileView(),
       )
     ],
   );

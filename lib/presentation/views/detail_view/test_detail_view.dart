@@ -82,100 +82,102 @@ class _TestDetailViewState extends State<TestDetailView> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        child: Column(
-          children: [
-            TestDetailWidget(
-              test: "Test English",
-              appBarText: widget.appBarText,
-              count: count,
-              c: 0,
-            ),
-            const SizedBox(height: 12),
-            TestDetailWidget(
-              test: "Test Uzbek",
-              appBarText: widget.appBarText,
-              count: count,
-              c: -1,
-            ),
-            const SizedBox(height: 12),
-            TestDetailWidget(
-              test: "Test mixed",
-              appBarText: widget.appBarText,
-              count: count,
-              c: -2,
-            ),
-            const SizedBox(height: 12),
-            TestDetailWidget(
-              test: "Written test",
-              appBarText: widget.appBarText,
-              count: count,
-              c: -3,
-            ),
-            const SizedBox(height: 12),
-            GestureDetector(
-              onTap: () => Caller.launchUrlWeb(
-                  "https://www.google.com/search?q=How%20to%20pronounce"),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.elliptical(30, 30),
-                    topRight: Radius.elliptical(3, 3),
-                    bottomLeft: Radius.elliptical(3, 3),
-                    bottomRight: Radius.elliptical(30, 30),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          child: Column(
+            children: [
+              TestDetailWidget(
+                test: "Test English",
+                appBarText: widget.appBarText,
+                count: count,
+                c: 0,
+              ),
+              const SizedBox(height: 12),
+              TestDetailWidget(
+                test: "Test Uzbek",
+                appBarText: widget.appBarText,
+                count: count,
+                c: -1,
+              ),
+              const SizedBox(height: 12),
+              TestDetailWidget(
+                test: "Test mixed",
+                appBarText: widget.appBarText,
+                count: count,
+                c: -2,
+              ),
+              const SizedBox(height: 12),
+              TestDetailWidget(
+                test: "Written test",
+                appBarText: widget.appBarText,
+                count: count,
+                c: -3,
+              ),
+              const SizedBox(height: 12),
+              GestureDetector(
+                onTap: () => Caller.launchUrlWeb(
+                    "https://www.google.com/search?q=How%20to%20pronounce"),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.elliptical(30, 30),
+                      topRight: Radius.elliptical(3, 3),
+                      bottomLeft: Radius.elliptical(3, 3),
+                      bottomRight: Radius.elliptical(30, 30),
+                    ),
+                    color: Colors.blueAccent.shade200,
                   ),
-                  color: Colors.blueAccent.shade200,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: SizedBox(
-                    height: 80,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.blueAccent.shade100,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Center(
-                              child: AspectRatio(
-                                aspectRatio: 1,
-                                child: AppIcons.how.svg(
-                                  height: 24,
-                                  width: 24,
-                                  color: white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    child: SizedBox(
+                      height: 80,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.blueAccent.shade100,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Center(
+                                child: AspectRatio(
+                                  aspectRatio: 1,
+                                  child: AppIcons.how.svg(
+                                    height: 24,
+                                    width: 24,
+                                    color: white,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        const Text(
-                          "How to pronounce",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 22,
-                            color: white,
+                          const SizedBox(width: 10),
+                          const Text(
+                            "How to pronounce",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 22,
+                              color: white,
+                            ),
                           ),
-                        ),
-                        // const Icon(
-                        //   Icons.arrow_forward_ios_rounded,
-                        //   color: white,
-                        //   size: 28,
-                        // ),
-                      ],
+                          // const Icon(
+                          //   Icons.arrow_forward_ios_rounded,
+                          //   color: white,
+                          //   size: 28,
+                          // ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

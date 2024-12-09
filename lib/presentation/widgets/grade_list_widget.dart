@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:language/assets/color/colors.dart';
@@ -17,14 +16,27 @@ class GradeListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OpenContainer(
-      closedShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      transitionDuration: const Duration(milliseconds: 500),
-      closedColor: Colors.white,
-      closedBuilder: (context, action) {
-        return Padding(
+    return GestureDetector(
+      onTap: () {
+        GradeEditView(
+          grade: grade,
+          index: index,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.elliptical(30, 30),
+            topRight: Radius.elliptical(3, 3),
+            bottomLeft: Radius.elliptical(3, 3),
+            bottomRight: Radius.elliptical(30, 30),
+          ),
+          color: Colors.white,
+          border: Border.all(
+            color: gray.withOpacity(.4),
+          ),
+        ),
+        child: Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           child: SizedBox(
             height: 70,
@@ -103,22 +115,16 @@ class GradeListWidget extends StatelessWidget {
               ],
             ),
           ),
-        );
-      },
-      openBuilder: (context, action) {
-        return GradeEditView(
-          grade: grade,
-          index: index,
-        );
-      },
+        ),
+      ),
     );
   }
+}
 
-  SvgPicture selectIcon(bool g) {
-    if (g) {
-      return AppIcons.star.svg(width: 24, height: 24, color: green);
-    } else {
-      return AppIcons.star.svg(width: 24, height: 24, color: red);
-    }
+SvgPicture selectIcon(bool g) {
+  if (g) {
+    return AppIcons.star.svg(width: 24, height: 24, color: green);
+  } else {
+    return AppIcons.star.svg(width: 24, height: 24, color: red);
   }
 }

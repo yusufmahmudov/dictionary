@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/assets/icons.dart';
@@ -15,22 +14,54 @@ class BuilderContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OpenContainer(
-      closedShape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.elliptical(30, 30),
-          topRight: Radius.elliptical(3, 3),
-          bottomLeft: Radius.elliptical(3, 3),
-          bottomRight: Radius.elliptical(30, 30),
+    return GestureDetector(
+      onTap: () {
+        if (text.compareTo("All dictionaries") == 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const GradeView(
+                  test: "", count: -2, gradeName: 'All dictionaries'),
+            ),
+          ).then((_) {
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
+          });
+        } else if (text.compareTo("Principle") == 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  const GradeView(test: "", count: -3, gradeName: "Principle"),
+            ),
+          ).then((_) {
+            // ignore: use_build_context_synchronously
+            if (Navigator.canPop(context)) {
+              // ignore: use_build_context_synchronously
+              Navigator.pop(context);
+            }
+          });
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TestDetailView(appBarText: text),
+            ),
+          );
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.elliptical(30, 30),
+            topRight: Radius.elliptical(3, 3),
+            bottomLeft: Radius.elliptical(3, 3),
+            bottomRight: Radius.elliptical(30, 30),
+          ),
+          color: Colors.blueAccent.shade200,
         ),
-      ),
-      transitionDuration: const Duration(milliseconds: 500),
-      closedElevation: 5,
-      openElevation: 5,
-      closedColor: Colors.blueAccent.shade200,
-      transitionType: ContainerTransitionType.fadeThrough,
-      closedBuilder: (context, action) {
-        return Padding(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: SizedBox(
             height: 80,
@@ -86,41 +117,32 @@ class BuilderContainer extends StatelessWidget {
               ],
             ),
           ),
-        );
-      },
-      openBuilder: (context, action) {
-        if (text.compareTo("All dictionaries") == 0) {
-          return const GradeView(
-              test: "", count: -2, gradeName: 'All dictionaries');
-        } else if (text.compareTo("Principle") == 0) {
-          return const GradeView(test: "", count: -3, gradeName: "Principle");
-        }
-        return TestDetailView(appBarText: text);
-      },
+        ),
+      ),
     );
   }
+}
 
-  Widget selectedIcon(int c) {
-    if (c == 0) {
-      return AppIcons.random.svg(width: 24, height: 24, color: white);
-    } else if (c == -1) {
-      return AppIcons.word.svg(width: 24, height: 24, color: white);
-    } else if (c == -2) {
-      return Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: AppIcons.phrase.svg(width: 36, height: 36, color: white),
-      );
-    } else if (c == -3) {
-      return Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: AppIcons.list.svg(width: 24, height: 24, color: white),
-      );
-    } else if (c == -4) {
-      return Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: AppIcons.principle.svg(width: 24, height: 24, color: white),
-      );
-    }
-    return AppIcons.word.svg();
+Widget selectedIcon(int c) {
+  if (c == 0) {
+    return AppIcons.random.svg(width: 24, height: 24, color: white);
+  } else if (c == -1) {
+    return AppIcons.word.svg(width: 24, height: 24, color: white);
+  } else if (c == -2) {
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: AppIcons.phrase.svg(width: 36, height: 36, color: white),
+    );
+  } else if (c == -3) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: AppIcons.list.svg(width: 24, height: 24, color: white),
+    );
+  } else if (c == -4) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: AppIcons.principle.svg(width: 24, height: 24, color: white),
+    );
   }
+  return AppIcons.word.svg();
 }

@@ -22,12 +22,10 @@ class CreateUserEvent extends UserEvent {
 
 class UpdateUserEvent extends UserEvent {
   final Users users;
-  final int index;
   final VoidCallback onSuccess;
 
   UpdateUserEvent({
     required this.users,
-    required this.index,
     required this.onSuccess,
   });
 }
@@ -37,6 +35,8 @@ class SelUserEvent extends UserEvent {
 
   SelUserEvent({required this.index});
 }
+
+class LogOutUserEvent extends UserEvent {}
 
 class CheckLoginEvent extends UserEvent {
   final Login login;

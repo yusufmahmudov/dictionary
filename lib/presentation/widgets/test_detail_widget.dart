@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/assets/icons.dart';
@@ -19,19 +18,37 @@ class TestDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OpenContainer(
-      closedShape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.elliptical(30, 30),
-          topRight: Radius.elliptical(3, 3),
-          bottomLeft: Radius.elliptical(3, 3),
-          bottomRight: Radius.elliptical(30, 30),
+    return GestureDetector(
+      onTap: () {
+        if (appBarText.compareTo("Random dictionary") == 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => RandomTest(count: count, test: test),
+            ),
+          );
+        } else if (appBarText.compareTo("Words") == 0 ||
+            appBarText.compareTo("Phrases") == 0) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  GradeView(test: test, count: count, gradeName: appBarText),
+            ),
+          );
+        }
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.elliptical(30, 30),
+            topRight: Radius.elliptical(3, 3),
+            bottomLeft: Radius.elliptical(3, 3),
+            bottomRight: Radius.elliptical(30, 30),
+          ),
+          color: Colors.blueAccent.shade200,
         ),
-      ),
-      transitionDuration: const Duration(milliseconds: 500),
-      closedColor: Colors.blueAccent.shade200,
-      closedBuilder: (context, action) {
-        return Padding(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: SizedBox(
             height: 80,
@@ -69,44 +86,32 @@ class TestDetailWidget extends StatelessWidget {
               ],
             ),
           ),
-        );
-      },
-      openBuilder: (context, action) {
-        // if (count.isEmpty) {
-        //   count = "10";
-        // }
-        if (appBarText.compareTo("Random dictionary") == 0) {
-          return RandomTest(count: count, test: test);
-        } else if (appBarText.compareTo("Words") == 0 ||
-            appBarText.compareTo("Phrases") == 0) {
-          return GradeView(test: test, count: count, gradeName: appBarText);
-        }
-        return const Scaffold();
-      },
+        ),
+      ),
     );
   }
+}
 
-  Widget selectedIcon(int c) {
-    if (c == 0) {
-      return Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: AppIcons.en.svg(width: 24, height: 24, color: white),
-      );
-    } else if (c == -1) {
-      return Padding(
-        padding: const EdgeInsets.all(2.0),
-        child: AppIcons.uz.svg(width: 36, height: 36, color: white),
-      );
-    } else if (c == -2) {
-      return Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: AppIcons.mix.svg(width: 24, height: 24, color: white),
-      );
-    } else {
-      return Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: AppIcons.write.svg(width: 24, height: 24, color: white),
-      );
-    }
+Widget selectedIcon(int c) {
+  if (c == 0) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: AppIcons.en.svg(width: 24, height: 24, color: white),
+    );
+  } else if (c == -1) {
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: AppIcons.uz.svg(width: 36, height: 36, color: white),
+    );
+  } else if (c == -2) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: AppIcons.mix.svg(width: 24, height: 24, color: white),
+    );
+  } else {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: AppIcons.write.svg(width: 24, height: 24, color: white),
+    );
   }
 }

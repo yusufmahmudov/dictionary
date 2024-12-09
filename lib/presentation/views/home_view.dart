@@ -3,7 +3,7 @@ import 'package:language/assets/color/colors.dart';
 import 'package:language/infrastructure/apis/user_service.dart';
 import 'package:language/presentation/views/adder_view/grade_list_category.dart';
 import 'package:language/presentation/views/adder_view/grade_list_view.dart';
-import 'package:language/presentation/views/profile/login_view.dart';
+import 'package:language/presentation/views/profile/profile_view.dart';
 import 'package:language/presentation/widgets/builder_container.dart';
 
 class HomeView extends StatefulWidget {
@@ -85,7 +85,7 @@ class _HomeViewState extends State<HomeView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const LoginView(),
+                      builder: (context) => const ProfileView(),
                     ),
                   );
                   break;
@@ -131,41 +131,43 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-        child: Column(
-          children: [
-            BuilderContainer(
-              text: "Random dictionary",
-              textBody: "Some random words",
-              c: 0,
-            ),
-            SizedBox(height: 12),
-            BuilderContainer(
-              text: "Words",
-              textBody: "A set of tests using words",
-              c: -1,
-            ),
-            SizedBox(height: 12),
-            BuilderContainer(
-              text: "Phrases",
-              textBody: "A set of tests using phrases",
-              c: -2,
-            ),
-            SizedBox(height: 12),
-            BuilderContainer(
-              text: "All dictionaries",
-              textBody: "All words and phrases",
-              c: -3,
-            ),
-            SizedBox(height: 12),
-            BuilderContainer(
-              text: "Principle",
-              textBody: "The entire set of principle",
-              c: -4,
-            ),
-            SizedBox(height: 12),
-          ],
+      body: const SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+          child: Column(
+            children: [
+              BuilderContainer(
+                text: "Random dictionary",
+                textBody: "Some random words",
+                c: 0,
+              ),
+              SizedBox(height: 12),
+              BuilderContainer(
+                text: "Words",
+                textBody: "A set of tests using words",
+                c: -1,
+              ),
+              SizedBox(height: 12),
+              BuilderContainer(
+                text: "Phrases",
+                textBody: "A set of tests using phrases",
+                c: -2,
+              ),
+              SizedBox(height: 12),
+              BuilderContainer(
+                text: "All dictionaries",
+                textBody: "All words and phrases",
+                c: -3,
+              ),
+              SizedBox(height: 12),
+              BuilderContainer(
+                text: "Principle",
+                textBody: "The entire set of principle",
+                c: -4,
+              ),
+              SizedBox(height: 12),
+            ],
+          ),
         ),
       ),
     );
