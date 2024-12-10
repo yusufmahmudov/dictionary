@@ -14,13 +14,11 @@ class PrincipleModelG {
   final String? name;
   final String? reference;
   final int? gradeId;
-  final int? usersId;
 
   PrincipleModelG({
     this.name,
     this.reference,
     this.gradeId,
-    this.usersId,
   });
 
   factory PrincipleModelG.fromJson(Map<String, dynamic> json) =>
@@ -28,13 +26,11 @@ class PrincipleModelG {
         name: json["name"],
         reference: json["reference"],
         gradeId: json["grade_id"],
-        usersId: json["users_id"],
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "reference": reference,
         "grade_id": gradeId,
-        "users_id": usersId,
       };
 }

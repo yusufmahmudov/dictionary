@@ -49,12 +49,11 @@ class WordBloc extends Bloc<WordEvent, WordState> {
 
     on<CreateWordsEvent>(
       (event, emit) async {
-        state.copyWith(statusWord: FormzSubmissionStatus.inProgress);
         try {
+          emit(state.copyWith(statusWord: FormzSubmissionStatus.inProgress));
           await WordService().addWords(event.words, event.grade);
-
           emit(state.copyWith(statusWord: FormzSubmissionStatus.success));
-          add(GetWordsEvent());
+          event.onSuccess();
         } catch (e) {
           e.toString();
           state.copyWith(statusWord: FormzSubmissionStatus.failure);

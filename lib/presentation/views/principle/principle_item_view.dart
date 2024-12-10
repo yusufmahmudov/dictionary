@@ -24,6 +24,15 @@ class PrincipleItemView extends StatelessWidget {
             color: white,
           ),
         ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: white,
+          ),
+        ),
         centerTitle: true,
       ),
       body: Padding(

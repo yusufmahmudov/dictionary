@@ -104,8 +104,22 @@ class GradeBloc extends Bloc<GradeEvent, GradeState> {
     on<DeleteGradeEvent>(
       (event, emit) async {
         emit(state.copyWith(statusGrade: FormzSubmissionStatus.inProgress));
-        await GradeService().deleteGrade(event.index);
-        emit(state.copyWith(statusGrade: FormzSubmissionStatus.success));
+        final result = await GradeService().deleteGrade(event.gradeId);
+
+        List<GradeModel> list = List.from(state.grade);
+
+        if (result.isNotEmpty) {
+          list = result;
+        } else {
+          list = [];
+        }
+
+        emit(
+          state.copyWith(
+            grade: list,
+            statusGrade: FormzSubmissionStatus.success,
+          ),
+        );
       },
     );
   }

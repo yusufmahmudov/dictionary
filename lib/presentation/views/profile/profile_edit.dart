@@ -6,11 +6,9 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:go_router/go_router.dart';
 import 'package:language/application/user/user_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/users_model.dart';
-import 'package:language/presentation/routes/routes_name.dart';
 import 'package:language/presentation/widgets/custom_text_field.dart';
 import 'package:language/utils/custom_toast_bar.dart';
 import 'package:language/utils/formatters.dart';
@@ -196,7 +194,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 16, right: 16, bottom: 4, top: 8),
+                            left: 16, right: 16, bottom: 40, top: 8),
                         child: Container(
                           decoration: BoxDecoration(
                             color: white,
@@ -233,25 +231,25 @@ class _ProfileEditState extends State<ProfileEdit> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 32, right: 16, bottom: 8, top: 0),
-                        child: TextButton(
-                          onPressed: () {
-                            setState(() {
-                              controllerPassword.text = generatePassword();
-                            });
-                          },
-                          child: const Text(
-                            "Password generator",
-                            style: TextStyle(
-                              color: white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
+                      //   Padding(
+                      //     padding: const EdgeInsets.only(
+                      //         left: 32, right: 16, bottom: 8, top: 0),
+                      //     child: TextButton(
+                      //       onPressed: () {
+                      //         setState(() {
+                      //           controllerPassword.text = generatePassword();
+                      //         });
+                      //       },
+                      //       child: const Text(
+                      //         "Password generator",
+                      //         style: TextStyle(
+                      //           color: white,
+                      //           fontSize: 16,
+                      //           fontWeight: FontWeight.w500,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
                     ],
                   ),
                 ),

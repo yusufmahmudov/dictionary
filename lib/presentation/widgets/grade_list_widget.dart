@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:language/application/grade/grade_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/assets/icons.dart';
 import 'package:language/data/grade_model.dart';
@@ -16,6 +18,57 @@ class GradeListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void showDeleteGrade() {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return BlocBuilder<GradeBloc, GradeState>(
+            builder: (context, state) {
+              return AlertDialog(
+                title: const Text('Delete Grade'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Do you want to delete this grade "${grade.name}"?',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      'All words in this grade will be deleted.',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      // delete grade
+                      context.read<GradeBloc>().add(
+                            DeleteGradeEvent(index: index, gradeId: grade.id!),
+                          );
+                      Navigator.pop(context);
+                    },
+                    child: const Text(
+                      'Delete',
+                      style: TextStyle(color: red),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+      );
+    }
+
     return GestureDetector(
       onTap: () {
         GradeEditView(
@@ -103,7 +156,9 @@ class GradeListWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        showDeleteGrade();
+                      },
                       child: const Icon(
                         Icons.delete_outline,
                         color: red,

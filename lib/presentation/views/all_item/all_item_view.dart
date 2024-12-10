@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:language/application/phrase/phrase_bloc.dart';
 import 'package:language/application/word/word_bloc.dart';
 import 'package:language/assets/color/colors.dart';
 import 'package:language/data/grade_model.dart';
@@ -13,6 +14,11 @@ class AllItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.read<WordBloc>().add(GetWordsByGrade(gradeId: grade.id!));
+    if (grade.category == 'Words') {
+      context.read<WordBloc>().add(GetWordsByGrade(gradeId: grade.id!));
+    } else if (grade.category == 'Phrases') {
+      context.read<PhraseBloc>().add(GetPhraseByGrade(gradeId: grade.id!));
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent.shade400,
@@ -37,36 +43,69 @@ class AllItemView extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        child: BlocBuilder<WordBloc, WordState>(
-          builder: (context, state) {
-            if (state.statusWord.isInProgress) {
-              return const CupertinoActivityIndicator(
-                radius: 15.0,
-                color: blue,
-              );
-            } else if (state.words.isEmpty) {
-              return const Center(
-                child: Text(
-                  "Grade is empty",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-                ),
-              );
-            }
-            return ListView.separated(
-              itemCount: state.words.length,
-              separatorBuilder: (BuildContext context, int index) =>
-                  const SizedBox(height: 0),
-              itemBuilder: (BuildContext context, int index) {
-                return ExpansionTile(
-                  title: Text("${state.words[index].en}"),
-                  children: <Widget>[
-                    ListTile(title: Text("${state.words[index].uz}")),
-                  ],
-                );
-              },
-            );
-          },
-        ),
+        child: grade.category == 'Words'
+            ? BlocBuilder<WordBloc, WordState>(
+                builder: (context, state) {
+                  if (state.statusWord.isInProgress) {
+                    return const CupertinoActivityIndicator(
+                      radius: 15.0,
+                      color: blue,
+                    );
+                  } else if (state.words.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "Grade is empty",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w500),
+                      ),
+                    );
+                  }
+                  return ListView.separated(
+                    itemCount: state.words.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 0),
+                    itemBuilder: (BuildContext context, int index) {
+                      return ExpansionTile(
+                        title: Text("${state.words[index].en}"),
+                        children: <Widget>[
+                          ListTile(title: Text("${state.words[index].uz}")),
+                        ],
+                      );
+                    },
+                  );
+                },
+              )
+            : BlocBuilder<PhraseBloc, PhraseState>(
+                builder: (context, state) {
+                  if (state.statusPhrase.isInProgress) {
+                    return const CupertinoActivityIndicator(
+                      radius: 15.0,
+                      color: blue,
+                    );
+                  } else if (state.phrase.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "Grade is empty",
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.w500),
+                      ),
+                    );
+                  }
+                  return ListView.separated(
+                    itemCount: state.phrase.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SizedBox(height: 0),
+                    itemBuilder: (BuildContext context, int index) {
+                      return ExpansionTile(
+                        title: Text("${state.phrase[index].en}"),
+                        children: <Widget>[
+                          ListTile(title: Text("${state.phrase[index].uz}")),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
       ),
     );
   }

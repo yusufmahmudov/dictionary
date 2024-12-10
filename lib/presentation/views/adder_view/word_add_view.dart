@@ -7,6 +7,7 @@ import 'package:language/data/grade_model.dart';
 import 'package:language/infrastructure/apis/word_service.dart';
 import 'package:language/presentation/widgets/custom_text_field.dart';
 import 'package:language/presentation/widgets/w_button.dart';
+import 'package:language/utils/log_service.dart';
 
 class WordAddView extends StatefulWidget {
   final GradeModel grade;
@@ -76,6 +77,7 @@ class _WordAddViewState extends State<WordAddView> {
               onTap: () {
                 _submitForm();
                 if (words.isNotEmpty) {
+                  Log.i(words.map((e) => e.en));
                   context.read<WordBloc>().add(
                         CreateWordsEvent(
                           words: words,

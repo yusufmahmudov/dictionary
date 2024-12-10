@@ -50,7 +50,11 @@ class SelGradeEvent extends GradeEvent {
 }
 
 class DeleteGradeEvent extends GradeEvent {
+  final int gradeId;
   final int index;
 
-  DeleteGradeEvent({required this.index});
+  DeleteGradeEvent({
+    required this.index,
+    required this.gradeId,
+  });
 }

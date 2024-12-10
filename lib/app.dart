@@ -46,11 +46,11 @@ class AppView extends StatelessWidget {
           return BlocListener<UserBloc, UserState>(
             listener: (context, state) {
               switch (state.statusAuth) {
-                case AuthenticationStatus.unauthenticated:
-                  AppRoutes.router.pushReplacement(AppRouteName.login);
-                  break;
                 case AuthenticationStatus.authenticated:
                   AppRoutes.router.pushReplacement(AppRouteName.home);
+                  break;
+                case AuthenticationStatus.unauthenticated:
+                  AppRoutes.router.pushReplacement(AppRouteName.login);
                 case AuthenticationStatus.loading:
                 case AuthenticationStatus.cancelLoading:
                   break;

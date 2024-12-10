@@ -13,14 +13,12 @@ class WordModel {
   final String? uz;
   final String? en;
   final int? gradeId;
-  final int? usersId;
 
   WordModel({
     this.id,
     this.uz,
     this.en,
     this.gradeId,
-    this.usersId,
   });
 
   factory WordModel.fromJson(Map<String, dynamic> json) => WordModel(
@@ -28,7 +26,6 @@ class WordModel {
         uz: json["uz"],
         en: json["en"],
         gradeId: json["grade_id"],
-        usersId: json["users_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -36,6 +33,5 @@ class WordModel {
         "uz": uz,
         "en": en,
         "grade_id": gradeId,
-        "users_id": usersId,
       };
 }

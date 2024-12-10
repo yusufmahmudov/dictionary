@@ -11,7 +11,6 @@ import 'package:language/presentation/routes/routes_name.dart';
 import 'package:language/presentation/widgets/custom_text_field.dart';
 import 'package:language/utils/custom_toast_bar.dart';
 import 'package:language/utils/formatters.dart';
-import 'package:language/utils/generate_random.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
@@ -181,7 +180,7 @@ class _RegisterViewState extends State<RegisterView> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 16, right: 16, bottom: 4, top: 8),
+                            left: 16, right: 16, bottom: 40, top: 8),
                         child: Container(
                           decoration: BoxDecoration(
                             color: white,
@@ -218,23 +217,23 @@ class _RegisterViewState extends State<RegisterView> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 16, right: 16, bottom: 8, top: 0),
-                        child: TextButton(
-                          onPressed: () {
-                            controllerPassword.text = generatePassword();
-                          },
-                          child: const Text(
-                            "Password generator",
-                            style: TextStyle(
-                              color: white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //       left: 16, right: 16, bottom: 8, top: 0),
+                      //   child: TextButton(
+                      //     onPressed: () {
+                      //       controllerPassword.text = generatePassword();
+                      //     },
+                      //     child: const Text(
+                      //       "Password generator",
+                      //       style: TextStyle(
+                      //         color: white,
+                      //         fontSize: 16,
+                      //         fontWeight: FontWeight.w500,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

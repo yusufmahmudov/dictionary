@@ -46,6 +46,7 @@ class PrincipleBloc extends Bloc<PrincipleEvent, PrincipleState> {
 
           emit(state.copyWith(statusPrinciple: FormzSubmissionStatus.success));
           add(GetPrincipleEvent());
+          event.onSuccess();
         } catch (e) {
           e.toString();
           state.copyWith(

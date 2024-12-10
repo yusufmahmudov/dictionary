@@ -18,13 +18,11 @@ class GradeEditView extends StatefulWidget {
 class _GradeEditViewState extends State<GradeEditView> {
   TextEditingController controllerGrade = TextEditingController();
   late bool success;
-  String? categorySelectedVal;
   String? successSelectedVal;
 
   @override
   void initState() {
     controllerGrade = TextEditingController(text: widget.grade.name);
-    categorySelectedVal = widget.grade.category!;
     successSelectedVal = widget.grade.success! ? 'Done' : 'Not done';
     success = widget.grade.success!;
     super.initState();
@@ -35,12 +33,6 @@ class _GradeEditViewState extends State<GradeEditView> {
     controllerGrade.dispose();
     super.dispose();
   }
-
-  static const menuItems = <String>[
-    'Words',
-    'Phrases',
-    'Principle',
-  ];
 
   static const menuSuccess = <String>[
     'Not done',
@@ -58,21 +50,6 @@ class _GradeEditViewState extends State<GradeEditView> {
                 fontWeight: FontWeight.w400,
               ),
             )),
-      )
-      .toList();
-
-  final List<DropdownMenuItem<String>> dropDownMenuItem = menuItems
-      .map(
-        (String value) => DropdownMenuItem<String>(
-          value: value,
-          child: Text(
-            value,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
       )
       .toList();
 
@@ -109,8 +86,7 @@ class _GradeEditViewState extends State<GradeEditView> {
               margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
               text: "Update grade",
               onTap: () {
-                if (controllerGrade.text.isNotEmpty &&
-                    categorySelectedVal!.isNotEmpty) {
+                if (controllerGrade.text.isNotEmpty) {
                   context.read<GradeBloc>().add(
                         UpdateGradeEvent(
                           index: widget.index,
@@ -118,7 +94,7 @@ class _GradeEditViewState extends State<GradeEditView> {
                             id: widget.grade.id,
                             name: controllerGrade.text,
                             success: success,
-                            category: categorySelectedVal,
+                            category: widget.grade.category,
                             count: widget.grade.count,
                             usersId: widget.grade.usersId,
                           ),
@@ -146,46 +122,6 @@ class _GradeEditViewState extends State<GradeEditView> {
               title: "Grade name",
               hintText: "Name",
               borderColor: blue,
-            ),
-            const SizedBox(height: 12),
-            const Text(
-              "Select a category",
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-            ),
-            const SizedBox(height: 6),
-            DropdownButtonFormField<String>(
-              items: dropDownMenuItem,
-              value: categorySelectedVal,
-              hint: Text(
-                categorySelectedVal!,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              onChanged: (String? newValue) {
-                if (newValue != null) {
-                  setState(() {
-                    categorySelectedVal = newValue;
-                  });
-                }
-              },
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: blue),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: blue),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: blue),
-                ),
-              ),
-              icon: const Icon(Icons.arrow_drop_down),
             ),
             const SizedBox(height: 12),
             const Text(

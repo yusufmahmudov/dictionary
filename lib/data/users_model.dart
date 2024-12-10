@@ -11,7 +11,6 @@ String usersToJson(Users data) => json.encode(data.toJson());
 class Users {
   final int? id;
   final String? name;
-  final String? username;
   final String? phone;
   final String? password;
   final String? salt;
@@ -20,7 +19,6 @@ class Users {
   Users({
     this.id,
     this.name,
-    this.username,
     this.phone,
     this.password,
     this.salt,
@@ -30,7 +28,6 @@ class Users {
   factory Users.fromJson(Map<String, dynamic> json) => Users(
         id: json["id"],
         name: json["name"],
-        username: json["username"],
         phone: json["phone"],
         password: json["password"],
         salt: json["salt"],
@@ -40,7 +37,6 @@ class Users {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "username": username,
         "phone": phone,
         "password": password,
         "salt": salt,

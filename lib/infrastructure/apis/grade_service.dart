@@ -108,9 +108,18 @@ class GradeService {
     }
   }
 
-  Future<void> deleteGrade(int id) async {
+  Future<List<GradeModel>> deleteGrade(int id) async {
     try {
+      int userId = StorageRepository.getInt(StorageKeys.USERID);
+
       await supabase.from(Tables.grade.text).delete().eq("id", id);
+
+      final List<dynamic> response = await supabase
+          .from(Tables.grade.text)
+          .select()
+          .eq("users_id", userId);
+
+      return response.map((e) => GradeModel.fromJson(e)).toList();
     } catch (e) {
       throw Exception("Xatolik yuz berdi: $e");
     }

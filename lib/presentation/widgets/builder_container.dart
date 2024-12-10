@@ -24,7 +24,9 @@ class BuilderContainer extends StatelessWidget {
                   test: "", count: -2, gradeName: 'All dictionaries'),
             ),
           ).then((_) {
+            // ignore: use_build_context_synchronously
             if (Navigator.canPop(context)) {
+              // ignore: use_build_context_synchronously
               Navigator.pop(context);
             }
           });
