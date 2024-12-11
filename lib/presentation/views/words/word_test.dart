@@ -34,6 +34,46 @@ class WordTest extends StatelessWidget {
     if (c == 0) {
       c = 10;
     }
+
+    Widget customScaffold(String title) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: blue,
+          title: const Text(
+            "Words",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+              color: white,
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: white,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      );
+    }
+
     return BlocBuilder<WordBloc, WordState>(
       builder: (context, state) {
         if (state.statusWord.isInProgress) {
@@ -42,12 +82,9 @@ class WordTest extends StatelessWidget {
             color: blue,
           );
         } else if (state.words.isEmpty) {
-          return const Center(
-            child: Text(
-              "Word is empty",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-            ),
-          );
+          return customScaffold("Words is empty");
+        } else if (state.words.length < 10) {
+          return customScaffold("The value in the words must be at least 10");
         }
 
         if (c == -1 || c > state.words.length) {

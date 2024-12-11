@@ -30,6 +30,45 @@ class RandomTest extends StatelessWidget {
       c = 10;
     }
 
+    Widget customScaffold(String title) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: blue,
+          title: const Text(
+            "Random test",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+              color: white,
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: white,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      );
+    }
+
     return BlocBuilder<WordBloc, WordState>(
       builder: (context, state) {
         if (state.statusWord.isInProgress) {
@@ -38,12 +77,10 @@ class RandomTest extends StatelessWidget {
             color: blue,
           );
         } else if (state.words.isEmpty) {
-          return const Center(
-            child: Text(
-              "Word is empty",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-            ),
-          );
+          return customScaffold("Words is empty");
+        } else if (state.words.length < 10) {
+          return customScaffold(
+              "The value in the words must be at least 10. The grades that are DONE in the random test will not be released!");
         }
 
         state.words.shuffle();

@@ -37,18 +37,24 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     on<GetUserById>((event, emit) async {
       emit(state.copyWith(statusUser: FormzSubmissionStatus.inProgress));
-      int id = StorageRepository.getInt(StorageKeys.USERID);
-      final result = await UserService().fetchUserById(id);
+      int? id = StorageRepository.getInt(StorageKeys.USERID);
+      if (id == 0) {
+        emit(state.copyWith(
+          statusAuth: AuthenticationStatus.unauthenticated,
+        ));
+      } else {
+        final result = await UserService().fetchUserById(id);
 
-      if (result.isEmpty) {}
+        if (result.isEmpty) {}
 
-      emit(
-        state.copyWith(
-          statusAuth: AuthenticationStatus.authenticated,
-          statusUser: FormzSubmissionStatus.success,
-          users: result,
-        ),
-      );
+        emit(
+          state.copyWith(
+            statusAuth: AuthenticationStatus.authenticated,
+            statusUser: FormzSubmissionStatus.success,
+            users: result,
+          ),
+        );
+      }
     });
 
     on<CreateUserEvent>((event, emit) async {
@@ -80,8 +86,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
 
     on<LogOutUserEvent>(
-      (event, emit) {
+      (event, emit) async {
         emit(state.copyWith(statusUser: FormzSubmissionStatus.inProgress));
+        await StorageRepository.deleteInt(StorageKeys.USERID);
 
         emit(
           state.copyWith(

@@ -60,6 +60,11 @@ class StorageRepository {
     return _preferences!.setInt(key, value);
   }
 
+  static Future<bool>? deleteInt(String key) {
+    if (_preferences == null) return null;
+    return _preferences!.remove(key);
+  }
+
   static List<String> getList(String key, {List<String> defValue = const []}) {
     if (_preferences == null) return List.empty(growable: true);
     return _preferences!.getStringList(key) ?? List.empty(growable: true);

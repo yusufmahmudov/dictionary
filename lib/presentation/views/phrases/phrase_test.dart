@@ -34,6 +34,46 @@ class PhraseTest extends StatelessWidget {
     if (c == 0) {
       c = 10;
     }
+
+    Widget customScaffold(String title) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: blue,
+          title: const Text(
+            "Phrase",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+              color: white,
+            ),
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: white,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      );
+    }
+
     return BlocBuilder<PhraseBloc, PhraseState>(
       builder: (context, state) {
         if (state.statusPhrase.isInProgress) {
@@ -42,12 +82,9 @@ class PhraseTest extends StatelessWidget {
             color: blue,
           );
         } else if (state.phrase.isEmpty) {
-          return const Center(
-            child: Text(
-              "Phrase is empty",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
-            ),
-          );
+          return customScaffold("Phrase is empty");
+        } else if (state.phrase.length < 10) {
+          return customScaffold("The value in the phrase must be at least 10");
         }
 
         if (c == -1 || c > state.phrase.length) {
